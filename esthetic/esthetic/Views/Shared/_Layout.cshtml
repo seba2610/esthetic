@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/css")
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:100,300" rel="stylesheet">
+</head>
+<body>
+    @Html.Partial("_MenuPartial")
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="navbar pull-right" id="auth-nav">
+                <ul class="nav navbar-nav">
+                    @if (Request.IsAuthenticated)
+                    {
+                        using (Html.BeginForm("Cerrar sesión", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <li>
+                                @Html.ActionLink("Hola " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                            </li>
+                            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                        }
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Iniciar sesión", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                    }
+                </ul>
+            </div>
+            <p>&copy; @DateTime.Now.Year Anabela Alvarez - Interfcoiffeur | Independencia 261 - Florida - Uruguay - +598 435 28197</p>
+        </div>
+    </footer>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
