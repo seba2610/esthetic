@@ -7,15 +7,16 @@
                 <span class="icon-bar"></span>
             </button>
             <a href="@Url.Action("Index", "Home")" class="navbar-header">
-                <img src="@Url.Content("~/Images/brand/header.png")" />
+                <img src="@Url.Content("~/Images/brand/header.png")"/>
             </a>
             
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li class="active">@Html.ActionLink("FOTOGRAFIAS", "Index", "Home")</li>
-                <li>@Html.ActionLink("SERVICIOS", "About", "Home")</li>
+                <li class="active">@Html.ActionLink("FOTOGRAFIAS", "Albums", "Home")</li>
+                <li>@Html.ActionLink("SERVICIOS", "Services", "Home")</li>
                 <li>@Html.ActionLink("CONTACTO", "Contact", "Home")</li>
+                <li>@Html.ActionLink("PROMOCIONES", "Features", "Home", new { @class = "highlighted" })</li>
             </ul>
         </div>
     </div>

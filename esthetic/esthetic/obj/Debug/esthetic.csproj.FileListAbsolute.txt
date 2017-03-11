@@ -80,3 +80,4 @@ C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\esthetic\bin\Micr
 C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\esthetic\obj\Debug\esthetic.csprojResolveAssemblyReference.cache
 C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\esthetic\obj\Debug\esthetic.dll
 C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\esthetic\obj\Debug\esthetic.pdb
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\esthetic\bin\es\System.Web.Mvc.resources.dll

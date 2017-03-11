@@ -1,17 +1,33 @@
-﻿@{
-    ViewBag.Title = "Contact";
-}
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+﻿<h3>@ViewBag.Message</h3>
+<hr />
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+<div class="col-md-6 col-lg-6">
+    <address>
+        Anabela Alvarez - Intercoiffeur <br />
+        <strong>Dirección:</strong> Independencia 261, Florida, Uruguay<br />
+        <strong>Teléfono:</strong> +598 435 28197
+    </address>
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+    <address>
+        <strong>Contacto:</strong>   <a href="mailto:contacto@anabelaalvarez.com.uy">contacto@anabelaalvarez.com.uy</a><br />
+    </address>
+</div>
+<div class="col-md-6 col-lg-6">
+    <div id="map"></div>
+</div>
+<script>
+      function initMap() {
+          var uluru = { lat: -34.1018865, lng: -56.2133748 };
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 17,
+          center: uluru
+        });
+        var marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+        });
+      }
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEoq8jh8RYN6-k84wB8Y5KugYRYb3IKZM&callback=initMap">
+</script>

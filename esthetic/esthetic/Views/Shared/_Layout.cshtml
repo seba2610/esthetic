@@ -7,40 +7,65 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/css")
+    <link rel="stylesheet" type="text/css" href="~/Scripts/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="~/Scripts/slick/slick-theme.css" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:100,300" rel="stylesheet">
 </head>
 <body>
     @Html.Partial("_MenuPartial")
     <div class="container body-content">
         @RenderBody()
-        <hr />
     </div>
     <footer class="footer">
         <div class="container">
-            <div class="navbar pull-right" id="auth-nav">
-                <ul class="nav navbar-nav">
-                    @if (Request.IsAuthenticated)
-                    {
-                        using (Html.BeginForm("Cerrar sesión", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <li>
-                                @Html.ActionLink("Hola " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-                            </li>
-                            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-                        }
-                    }
-                    else
-                    {
-                        <li>@Html.ActionLink("Iniciar sesión", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-                    }
-                </ul>
+            <div class="col-md-8 col-lg-8">
+                <p class="pull-left">&copy; @DateTime.Now.Year Anabela Alvarez - Intercoiffeur | Independencia 261 - Florida - Uruguay - +598 435 28197</p>
             </div>
-            <p>&copy; @DateTime.Now.Year Anabela Alvarez - Interfcoiffeur | Independencia 261 - Florida - Uruguay - +598 435 28197</p>
+            <div class="col-md-4 col-lg-4">
+                <div class="navbar pull-right" id="auth-nav">
+                    <ul class="nav">
+                        @if (Request.IsAuthenticated)
+                        {
+                            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <li>
+                                    @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                                </li>
+                                <li class="pull-right">
+                                    @Html.ActionLink("Administrar", "Index", "Administration", routeValues: null, htmlAttributes: new { title = "Administrar" }) |
+                                    <a href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesión</a>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Iniciar sesión", "Login", "Account", routeValues: null, htmlAttributes: new { id = "login" })</li>
+                        }
+                    </ul>
+                </div>
+            </div>
         </div>
     </footer>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script type="text/javascript" src="~/Scripts/slick/slick.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            if ($('#jumbo-bottom')) {
+                $('#jumbo-bottom').slick({
+                    dots: true,
+                    infinite: true,
+                    speed: 300,
+                    slidesToShow: 1,
+                    adaptiveHeight: true,
+                    arrows: false,
+                    autoplay: true,
+                    autoplaySpeed: 3000,
+            });
+            }
+        });
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

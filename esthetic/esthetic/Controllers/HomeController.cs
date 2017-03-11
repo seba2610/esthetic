@@ -10,20 +10,39 @@ namespace esthetic.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Anabela Alvarez - Interfcoiffeur";
+            return View();
+        }
+
+        public ActionResult Albums()
+        {
+            ViewBag.Message = "Fotografías";
+
             return View();
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Acerca de";
+
+            return View();
+        }
+        public ActionResult Services()
+        {
+            ViewBag.Message = "Servicios";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Contacto";
+
+            return View();
+        }
+
+        public ActionResult Features()
+        {
+            ViewBag.Message = "Promociones";
 
             return View();
         }

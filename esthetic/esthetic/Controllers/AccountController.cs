@@ -20,6 +20,7 @@ namespace esthetic.Controllers
 
         public AccountController()
         {
+            ViewBag.Message = "Iniciar sesión";
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -139,6 +140,7 @@ namespace esthetic.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewBag.Message = "Registrar nuevo usuario";
             return View();
         }
 
