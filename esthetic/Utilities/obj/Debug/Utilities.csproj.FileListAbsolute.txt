@@ -6,3 +6,8 @@ C:\Users\Sebastian Caggiano\Documents\GitHub\acrossud\Acrossud\Utilities\bin\Deb
 C:\Users\Sebastian Caggiano\Documents\GitHub\acrossud\Acrossud\Utilities\bin\Debug\Utilities.pdb
 C:\Users\Sebastian Caggiano\Documents\GitHub\acrossud\Acrossud\Utilities\obj\Debug\Utilities.dll
 C:\Users\Sebastian Caggiano\Documents\GitHub\acrossud\Acrossud\Utilities\obj\Debug\Utilities.pdb
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\Utilities\bin\Debug\Utilities.dll
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\Utilities\bin\Debug\Utilities.pdb
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\Utilities\obj\Debug\Utilities.csprojResolveAssemblyReference.cache
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\Utilities\obj\Debug\Utilities.dll
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\Utilities\obj\Debug\Utilities.pdb

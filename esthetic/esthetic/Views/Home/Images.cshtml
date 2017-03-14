@@ -1,0 +1,7 @@
+﻿@model Esthetic.Models.ImagesModel
+<ul>
+    @foreach (Esthetic.Category category in Model.Categories)
+    {
+        <li>@category.Name</li>
+    }
+</ul>

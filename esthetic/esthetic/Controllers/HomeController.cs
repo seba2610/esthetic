@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Esthetic.Models;
 
-namespace esthetic.Controllers
+namespace Esthetic.Controllers
 {
     public class HomeController : Controller
     {
@@ -13,11 +14,13 @@ namespace esthetic.Controllers
             return View();
         }
 
-        public ActionResult Albums()
+        public ActionResult Images()
         {
             ViewBag.Message = "Fotografías";
+            ImagesModel model = new ImagesModel();
+            model.Categories = ImageCtrler.Instance.GetCategories();
 
-            return View();
+            return View(model);
         }
 
         public ActionResult About()

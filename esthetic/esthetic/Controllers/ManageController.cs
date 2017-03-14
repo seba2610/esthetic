@@ -6,9 +6,9 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using esthetic.Models;
+using Esthetic.Models;
 
-namespace esthetic.Controllers
+namespace Esthetic.Controllers
 {
     [Authorize]
     public class ManageController : Controller

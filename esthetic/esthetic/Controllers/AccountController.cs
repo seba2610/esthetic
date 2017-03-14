@@ -8,9 +8,10 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using esthetic.Models;
+using Esthetic.Models;
+using System.Threading;
 
-namespace esthetic.Controllers
+namespace Esthetic.Controllers
 {
     [Authorize]
     public class AccountController : Controller
@@ -87,7 +88,7 @@ namespace esthetic.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Usuario y/o contraseña no válidos.");
                     return View(model);
             }
         }

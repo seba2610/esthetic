@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "esthetic", "esthetic\esthetic.csproj", "{D5EBD29C-4EEC-4827-B017-7F72C3D2CD15}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Esthetic", "esthetic\Esthetic.csproj", "{D5EBD29C-4EEC-4827-B017-7F72C3D2CD15}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Object", "Object\Object.csproj", "{64D35C7D-2ED5-4083-8041-C459F825C027}"
 EndProject

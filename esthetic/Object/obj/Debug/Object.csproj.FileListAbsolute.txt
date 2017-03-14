@@ -8,3 +8,9 @@ C:\Users\Sebastian Caggiano\Documents\GitHub\acrossud\Acrossud\Object\bin\Debug\
 C:\Users\Sebastian Caggiano\Documents\GitHub\acrossud\Acrossud\Object\bin\Debug\Object.pdb
 C:\Users\Sebastian Caggiano\Documents\GitHub\acrossud\Acrossud\Object\obj\Debug\Object.dll
 C:\Users\Sebastian Caggiano\Documents\GitHub\acrossud\Acrossud\Object\obj\Debug\Object.pdb
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\Object\bin\Debug\Object.dll.config
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\Object\bin\Debug\Object.dll
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\Object\bin\Debug\Object.pdb
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\Object\obj\Debug\Object.dll
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\Object\obj\Debug\Object.pdb
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\Object\obj\Debug\Object.csprojResolveAssemblyReference.cache

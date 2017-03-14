@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Acrossud
+namespace Esthetic
 {
     /// <summary>
     /// Clase que implementas la clase abstracta DataAccess para Sql Server

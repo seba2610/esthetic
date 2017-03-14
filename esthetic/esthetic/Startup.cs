@@ -1,8 +1,8 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(esthetic.Startup))]
-namespace esthetic
+[assembly: OwinStartupAttribute(typeof(Esthetic.Startup))]
+namespace Esthetic
 {
     public partial class Startup
     {

@@ -81,3 +81,11 @@ C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\esthetic\obj\Debu
 C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\esthetic\obj\Debug\esthetic.dll
 C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\esthetic\obj\Debug\esthetic.pdb
 C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\esthetic\bin\es\System.Web.Mvc.resources.dll
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\esthetic\bin\es\Microsoft.AspNet.Identity.Core.resources.dll
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\esthetic\bin\Object.dll
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\esthetic\bin\ObjectMger.dll
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\esthetic\bin\DataAccess.dll
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\esthetic\bin\BouncyCastle.Crypto.dll
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\esthetic\bin\ObjectMger.pdb
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\esthetic\bin\Object.pdb
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\esthetic\bin\DataAccess.pdb

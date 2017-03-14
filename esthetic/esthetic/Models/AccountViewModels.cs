@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace esthetic.Models
+namespace Esthetic.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
