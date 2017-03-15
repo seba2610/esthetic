@@ -171,6 +171,24 @@ textarea {
     background-color: #333;
     border: 1px solid white;
     margin-bottom: 15px;
+    color:white;
+}
+
+.display-none{
+    display:none;
+}
+
+.edit-form{
+    background-color: #222;
+    padding: 10px 20px;
+    border: 1px dashed white;
+    margin:10px;
+    border-radius: 4px;
+}
+
+.modal-content{
+    background-color: #222;
+    border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 @media screen and (min-width:768px) {

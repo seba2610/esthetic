@@ -15,7 +15,27 @@ namespace Esthetic.Models
         [DisplayName("Descripción")]
         public string NewCategoryDescription { get; set; }
 
+        [DisplayName("Nombre")]
+        public string EditCategoryName { get; set; }
+
+        [DisplayName("Descripción")]
+        public string EditCategoryDescription { get; set; }
+
+        [DisplayName("Categoría superior")]
+        public int CategorySelected { get; set; }
+
         public List<Image> Images = new List<Image>();
         public List<Image> NewImages = new List<Image>();
+
+        public AdminModel()
+        {
+            CategorySelected = -1;
+        }
+    }
+
+    public class CategorySelection
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
     }
 }

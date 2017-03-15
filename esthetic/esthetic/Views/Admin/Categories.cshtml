@@ -7,12 +7,45 @@
 }
 else
 {
-    <ul>
-        @foreach(Esthetic.Category category in Model.Categories.Where(c => c.Parent == null))
+
+        foreach (Esthetic.Category category in Model.Categories.Where(c => c.Parent == null))
         {
-            <li>@category.Name</li>
+            <div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <span><strong>@category.Name</strong></span>
+                        <p>@category.Description</p>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <span class="btn btn-link edit-category-btn">Editar</span>
+                    </div>
+                </div>
+                <div class="row display-none">
+                    @using (Html.BeginForm("UpdateCategory", "Admin", new { id = category.Id}, FormMethod.Post, new { @class = "edit-form col-xs-12 col-sm-12 col-md-6 col-lg-6" }))
+                    {
+                        <div>
+                            <div>
+                                @Html.LabelFor(model => Model.EditCategoryName )
+                                @Html.EditorFor(model => Model.EditCategoryName, new { htmlAttributes = new { @class = "form-control", @Value = category.Name } })
+
+                                @Html.LabelFor(model => Model.EditCategoryDescription)
+                                @Html.TextArea("EditCategoryDescription", category.Description, new { @class = "form-control"})
+
+                                @if (Model.Categories.Count > 0)
+                                {
+                                    @Html.LabelFor(model => Model.CategorySelected)
+                                    @Html.DropDownListFor(model => model.CategorySelected, new SelectList(Model.Categories, "Id", "Name"), "Elegir categoría... ", new { @class = "form-control" })
+                                }
+                            </div>
+
+                            <span class="btn btn-link cancel-edit-category">Cancelar</span>
+                            <input type="submit" class="btn btn-link" value="Guardar cambios" />
+                            <span id="@category.Id" class="btn btn-sm btn-danger delete-category">Eliminar</span>
+                        </div>
+                    }
+                </div>
+            </div>
         }
-    </ul>
 }
 
 <h3>Sub-categorías</h3>
@@ -23,12 +56,44 @@ else
 }
 else
 {
-    <ul>
-        @foreach (Esthetic.Category category in Model.Categories.Where(c => c.Parent != null))
+        foreach (Esthetic.Category category in Model.Categories.Where(c => c.Parent != null))
         {
-            <li>@category.Name</li>
+            <div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <span><strong>@category.Name</strong> (<strong>@category.Parent.Name</strong>)</span>
+                        <p>@category.Description</p>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <span class="btn btn-link edit-category-btn">Editar</span>
+                    </div>
+                </div>
+                <div class="row display-none">
+                    @using (Html.BeginForm("UpdateCategory", "Admin", new { id = category.Id }, FormMethod.Post, new { @class = "edit-form col-xs-12 col-sm-12 col-md-6 col-lg-6" }))
+                    {
+                        <div>
+                            <div>
+                                @Html.LabelFor(model => Model.EditCategoryName)
+                                @Html.EditorFor(model => Model.EditCategoryName, new { htmlAttributes = new { @class = "form-control", @Value = category.Name } })
+
+                                @Html.LabelFor(model => Model.EditCategoryDescription)
+                                @Html.TextArea("EditCategoryDescription", category.Description, new { @class = "form-control" })
+
+                                @if (Model.Categories.Count > 0)
+                                {
+                                    @Html.LabelFor(model => Model.CategorySelected)
+                                    @Html.DropDownListFor(model => model.CategorySelected, new SelectList(Model.Categories, "Id", "Name"), "Elegir categoría... ", new { @class = "form-control" })
+                                }
+                            </div>
+
+                            <span class="btn btn-link cancel-edit-category">Cancelar</span>
+                            <input type="submit" class="btn btn-link" value="Guardar cambios" />
+                            <span id="@category.Id" class="btn btn-sm btn-danger delete-category">Eliminar</span>
+                        </div>
+                    }
+                </div>
+            </div>
         }
-    </ul>
 }
 
 <h3>Crear nueva</h3>
@@ -41,5 +106,30 @@ else
     @Html.LabelFor(model => Model.NewCategoryDescription)
     @Html.TextAreaFor(model => Model.NewCategoryDescription, new { @class = "form-control" })
 
-    <input type="submit" class="btn btn-sm btn-success" value="Crear" />
+    if (Model.Categories.Count > 0)
+    {
+        @Html.LabelFor(model => Model.CategorySelected)
+        @Html.DropDownListFor(model => model.CategorySelected, new SelectList(Model.Categories, "Id", "Name"), "Elegir categoría... ", new { @class = "form-control" })
+    }
+
+    <input type="submit" class="btn btn-success" value="Crear" />
 }
+
+<div class="modal fade" id="delete-category-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Eliminar categoría</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Seguro que desea eliminar la categoría?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Cancelar</button>
+                <input type="hidden" id="delete-category-modal-input" value="@Url.Action("DeleteCategory")"/>
+                <a id="delete-category-modal-link" class="btn btn-danger" href="/">Eliminar</a>
+            </div>
+        </div>
+    </div>
+</div>

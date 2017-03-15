@@ -96,11 +96,54 @@ namespace Esthetic
             DataSet ds = null;
 
             parameters = new Dictionary<string, object>();
+            parameters.Add("@Name", category.Name);
+            parameters.Add("@Description", category.Description);
+            parameters.Add("@ParentId", category.Parent.Id);
+
+            ds = _dataAccess.ExecuteStoreProcedure("CreateCategory", parameters);
+
+            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                result = Convert.ToInt32(ds.Tables[0].Rows[0][0]);
+            }
+
+            return result;
+        }
+
+        public int DeleteCategory(int id)
+        {
+            int result = -1;
+
+            Dictionary<string, object> parameters = null;
+            DataSet ds = null;
+
+            parameters = new Dictionary<string, object>();
+            parameters.Add("@Id", id);
+
+            ds = _dataAccess.ExecuteStoreProcedure("DeleteCategory", parameters);
+
+            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                result = Convert.ToInt32(ds.Tables[0].Rows[0][0]);
+            }
+
+            return result;
+        }
+
+        public int UpdateCategory(Category category)
+        {
+            int result = -1;
+
+            Dictionary<string, object> parameters = null;
+            DataSet ds = null;
+
+            parameters = new Dictionary<string, object>();
             parameters.Add("@Id", category.Id);
+            parameters.Add("@ParentId", category.Parent.Id);
             parameters.Add("@Name", category.Name);
             parameters.Add("@Description", category.Description);
 
-            ds = _dataAccess.ExecuteStoreProcedure("CreateCategory", parameters);
+            ds = _dataAccess.ExecuteStoreProcedure("UpdateCategory", parameters);
 
             if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
