@@ -1,0 +1,88 @@
+﻿@model Esthetic.Models.AdminModel
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation">
+        @Html.ActionLink("Categorías", "Categories")
+    </li>
+    <li role="presentation" class="active">
+        @Html.ActionLink("Fotografías", "Images")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Servicios", "Services")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Promociones", "Features")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Opciones", "Options")
+    </li>
+</ul>
+
+@foreach(Category category in Model.Categories)
+{
+    <div class="images-category">
+        <h4>@category.Name (@Model.Images.Select(i => i.Categories.Select(c => c.Id == category.Id)).Count()) <span class="btn btn-link add-image-btn pull-right" data-image-id="@category.Id">+ Agregar</span></h4>
+        <hr />
+        @if (@Model.Images.Select(i => i.Categories.Select(c => c.Id == category.Id)).Count() == 0)
+        {
+        <span><i>No hay fotografías en esta categoría.</i></span>
+        }
+    </div>
+}
+
+<div class="modal fade" id="add-images-category-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Eliminar categoría</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="categoryId" />
+                <div id="actions" class="row">
+                    <div>
+                        <!-- The fileinput-button span is used to style the file input field as button -->
+                        <span class="btn btn-success fileinput-button">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            <span>Agregar archivos...</span>
+                        </span>
+                        <button type="submit" class="btn btn-primary start" style="display:none;">
+                            <i class="glyphicon glyphicon-upload"></i>
+                            <span>Comenzar subida</span>
+                        </button>
+                        <button type="reset" class="btn btn-danger cancel" style="display:none;">
+                            <i class="glyphicon glyphicon-ban-circle"></i>
+                            <span>Quitar todos</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="table table-striped files" id="previews">
+                    <div id="template" class="file-row row">
+                        <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                            <span class="preview"><img data-dz-thumbnail /></span>
+                        </div>
+                        <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                            <p class="name dz-center-cell" data-dz-name></p>
+                            <strong class="error text-danger" data-dz-errormessage></strong>
+                        </div>
+                        <div class="hidden-xs col-sm-3 col-md-3 col-lg-3">
+                            <p class="size" data-dz-size></p>
+                            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                            <button data-dz-remove class="btn btn-danger cancel">
+                                <i class="glyphicon glyphicon-ban-circle"></i>
+                                <span>Quitar</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a id="delete-category-modal-link" class="btn btn-link" href="Images">Cerrar</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -24,10 +24,13 @@ namespace Esthetic
                       "~/Scripts/respond.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
+                      "~/Scripts/dropzone/dropzone.min.js",
                       "~/Scripts/app.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Scripts/dropzone/basic.min.css",
+                      "~/Scripts/dropzone/dropzone.min.css",
                       "~/Content/site.css"));
         }
     }

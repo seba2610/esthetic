@@ -224,6 +224,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\dropzone.js" />
+    <Content Include="Scripts\dropzone\basic.min.css" />
+    <Content Include="Scripts\dropzone\dropzone-amd-module.min.js" />
+    <Content Include="Scripts\dropzone\dropzone.min.css" />
+    <Content Include="Scripts\dropzone\dropzone.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -273,6 +278,7 @@
     <Content Include="Views\Home\Services.cshtml" />
     <Content Include="Views\Home\Images.cshtml" />
     <Content Include="Views\Admin\Categories.cshtml" />
+    <Content Include="Views\Admin\Images.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

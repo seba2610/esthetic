@@ -157,12 +157,11 @@ namespace Esthetic
         {
             List<Category> result = new List<Category>();
 
-            Dictionary<string, object> parameters = null;
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
             DataSet ds = null;
 
-            parameters = new Dictionary<string, object>();
             if (parent_id > -1)
-            parameters.Add("@ParentId", parent_id);
+                parameters.Add("@ParentId", parent_id);
 
             ds = _dataAccess.ExecuteStoreProcedure("GetCategories", parameters);
 
@@ -171,6 +170,42 @@ namespace Esthetic
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
                     result.Add(new Category(dr));
+                }
+            }
+
+            return result;
+        }
+
+        public List<Image> GetAllImages()
+        {
+            List<Image> result = new List<Image>();
+
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            DataSet ds = null;
+
+            ds = _dataAccess.ExecuteStoreProcedure("GetAllImages", parameters);
+
+            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    result.Add(new Image(dr));
+                }
+            }
+
+            foreach (Image image in result)
+            {
+                parameters = new Dictionary<string, object>();
+                parameters.Add("@ImageId", image.Id);
+
+                ds = _dataAccess.ExecuteStoreProcedure("GetImageCategories", parameters);
+
+                if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        image.Categories.Add(new Category(dr));
+                    }
                 }
             }
 
