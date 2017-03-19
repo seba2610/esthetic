@@ -12,13 +12,23 @@ namespace Esthetic
         public string Id;
         public string Title;
         public string Description;
+
         public List<Category> Categories;
+
+        public Image(string id)
+        {
+            Id = id;
+            Title = String.Empty;
+            Description = String.Empty;
+            Categories = new List<Category>();
+        }
 
         public Image(DataRow dr)
         {
             Id = dr["Id"].ToString();
             Title = dr["Title"] == DBNull.Value ? String.Empty : dr["Title"].ToString();
             Description = dr["Description"] == DBNull.Value ? String.Empty : dr["Description"].ToString();
+            Categories = new List<Category>();
         }
     }
 }

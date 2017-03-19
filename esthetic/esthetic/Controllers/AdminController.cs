@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Esthetic;
 using Esthetic.Models;
 
 namespace Esthetic.Controllers
@@ -23,6 +26,8 @@ namespace Esthetic.Controllers
             AdminModel model = new AdminModel();
             model.Categories = ImageCtrler.Instance.GetCategories();
             model.Images = ImageCtrler.Instance.GetAllImages();
+            model.ImageAbsolutePath = new DirectoryInfo(string.Format(EnumConst.ImagesPath, Server.MapPath("/"))).ToString();
+            model.ImageThumbnailAbsolutePath = string.Format(EnumConst.ThumbnailImagesPath, model.ImageAbsolutePath);
             return View(model);
         }
 
@@ -65,56 +70,46 @@ namespace Esthetic.Controllers
                 {
                     HttpPostedFileBase file = Request.Files[fileName];
 
-                    //if (file != null && file.ContentLength > 0)
-                    //{
-                    //    file_name = file.FileName;
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        Image image = new Image(Guid.NewGuid().ToString() + Path.GetExtension(file.FileName));
 
-                    //    string path = new DirectoryInfo(string.Format(EnumConst.EntityImagesPath, Server.MapPath("/"), entity_id.ToString())).ToString();
+                        file_name = image.Id;
 
-                    //    string thumbnail_path = string.Format(EnumConst.EntityThumbnailImagesPath, path, entity_id.ToString());
+                        string path = new DirectoryInfo(string.Format(EnumConst.ImagesPath, Server.MapPath("/"))).ToString();
 
-                    //    string absolute_file_name = string.Format(EnumConst.AbsoluteFileName, path, file_name);
+                        string thumbnail_path = string.Format(EnumConst.ThumbnailImagesPath, path);
 
-                    //    if (!Directory.Exists(path))
-                    //        Directory.CreateDirectory(path);
+                        string absolute_file_name = string.Format(EnumConst.AbsoluteFileName, path, file_name);
 
-                    //    if (!Directory.Exists(thumbnail_path))
-                    //        Directory.CreateDirectory(thumbnail_path);
+                        Bitmap bitmap = Utilities.IsImage(file);
 
-                    //    if (Directory.GetFiles(path).Where(f => f != EnumConst.ThumbnailDir).Count() == 0)
-                    //    {
-                    //        Property p = EntityMger.Instance.GetPropertyByName(EnumConst.PropertyNameMainPicture);
-                    //        EntityProperty ep = new EntityProperty();
-                    //        ep.EntityId = entity_id;
-                    //        ep.PropertyId = p.Id;
-                    //        ep.Value = file_name;
-                    //        ep.Id = EntityMger.Instance.AddOrUpdateEntityProperty(ep);
-                    //    }
+                        if (bitmap != null)
+                        {
+                            int thumb_height = EnumConst.ThumbnailDefaultSize;
+                            int thumb_width = EnumConst.ThumbnailDefaultSize;
 
-                    //    Bitmap bitmap = Utilities.IsImage(file);
+                            if (bitmap.Height > bitmap.Width)
+                            {
+                                thumb_width = (int)(bitmap.Width * ((float)thumb_height / (float)bitmap.Height));
+                            }
+                            else
+                            {
+                                thumb_height = (int)(bitmap.Height * ((float)thumb_width / (float)bitmap.Width));
+                            }
 
-                    //    if (bitmap != null)
-                    //    {
-                    //        int thumb_height = EnumConst.ThumbnailDefaultSize;
-                    //        int thumb_width = EnumConst.ThumbnailDefaultSize;
+                            System.Drawing.Image thumbnail = bitmap.GetThumbnailImage(thumb_width, thumb_height, null, IntPtr.Zero);
+                            string absolute_thumb_file_name = string.Format(EnumConst.AbsoluteFileName, thumbnail_path, file_name);
+                            thumbnail.Save(absolute_thumb_file_name);
+                            thumbnail.Dispose();
+                            bitmap.Dispose();
+                        }
 
-                    //        if (bitmap.Height > bitmap.Width)
-                    //        {
-                    //            thumb_width = (int)(bitmap.Width * ((float)thumb_height / (float)bitmap.Height));
-                    //        }
-                    //        else
-                    //        {
-                    //            thumb_height = (int)(bitmap.Height * ((float)thumb_width / (float)bitmap.Width));
-                    //        }
+                        file.SaveAs(absolute_file_name);
 
-                    //        Image thumbnail = bitmap.GetThumbnailImage(thumb_width, thumb_height, null, IntPtr.Zero);
-                    //        thumbnail.Save(string.Format(EnumConst.AbsoluteFileName, thumbnail_path, file_name));
-                    //        thumbnail.Dispose();
-                    //        bitmap.Dispose();
-                    //    }
-
-                    //    file.SaveAs(absolute_file_name);
-                    //}
+                        if (ImageCtrler.Instance.CreateImage(image) > 0)
+                            ImageCtrler.Instance.AddImageToCategory(image.Id, categoryId);
+                    }
                 }
             }
             catch (Exception ex)

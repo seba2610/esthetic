@@ -20,11 +20,52 @@
 @foreach(Category category in Model.Categories)
 {
     <div class="images-category">
-        <h4>@category.Name (@Model.Images.Select(i => i.Categories.Select(c => c.Id == category.Id)).Count()) <span class="btn btn-link add-image-btn pull-right" data-image-id="@category.Id">+ Agregar</span></h4>
-        <hr />
-        @if (@Model.Images.Select(i => i.Categories.Select(c => c.Id == category.Id)).Count() == 0)
+        <h4 class="toggle-images-category">@category.Name (@Model.Images.Where(i => i.Categories.FindIndex(c => c.Id == category.Id) > -1).Count())
+            <span  class="btn btn-link glyphicon glyphicon-menu-up"></span>
+            <span class="btn btn-link add-image-btn pull-right" data-image-id="@category.Id">+ Agregar</span>
+        </h4>
+        @if (@Model.Images.Where(i => i.Categories.FindIndex(c => c.Id == category.Id) > -1).Count() == 0)
         {
-        <span><i>No hay fotografías en esta categoría.</i></span>
+            <span class="zero-height"><i>No hay fotografías en esta categoría.</i></span>
+        }
+        else
+        {
+            <div class="row zero-height">
+                @foreach (Image image in @Model.Images.Where(i => i.Categories.FindIndex(c => c.Id == category.Id) > -1))
+                {
+                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="thumbnail">
+                            <div class="img-wrapper text-center">
+                                <img src="@Url.Action("../images/thumbnail/", null, null, Request.Url.Scheme)/@image.Id" alt="...">
+                            </div>
+                            <div class="caption">
+                                @if (String.IsNullOrEmpty(image.Title))
+                                {
+                                    <p><i>No tiene título</i></p>
+                                }
+                                else
+                                {
+                                    <h5>@image.Title</h5>
+                                }
+
+                                @if (String.IsNullOrEmpty(image.Description))
+                                {
+                                    <p><i>No tiene descripción</i></p>
+                                }
+                                else
+                                {
+                                    <p>@image.Description</p>
+                                }
+
+                                <div>
+                                    <a href="#" class="btn btn-link btn-xs pull-left" role="button">Editar</a>
+                                    <a href="#" class="btn btn-link btn-xs pull-right"  role="button">Eliminar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
         }
     </div>
 }
@@ -49,9 +90,8 @@
                             <i class="glyphicon glyphicon-upload"></i>
                             <span>Comenzar subida</span>
                         </button>
-                        <button type="reset" class="btn btn-danger cancel" style="display:none;">
-                            <i class="glyphicon glyphicon-ban-circle"></i>
-                            <span>Quitar todos</span>
+                        <button type="reset" class="btn btn-link cancel" style="display:none;">
+                            Quitar todos
                         </button>
                     </div>
                 </div>
@@ -71,9 +111,8 @@
                             </div>
                         </div>
                         <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
-                            <button data-dz-remove class="btn btn-danger cancel">
-                                <i class="glyphicon glyphicon-ban-circle"></i>
-                                <span>Quitar</span>
+                            <button data-dz-remove class="btn btn-link cancel">
+                                Quitar
                             </button>
                         </div>
                     </div>
@@ -81,7 +120,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a id="delete-category-modal-link" class="btn btn-link" href="Images">Cerrar</a>
+                <span id="delete-category-modal-link" data-dismiss="modal" class="btn btn-link">Cerrar</span>
             </div>
         </div>
     </div>

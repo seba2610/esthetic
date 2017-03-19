@@ -8,7 +8,7 @@ using System.Web;
 using System.Drawing;
 using System.IO;
 
-namespace Acrossud
+namespace Esthetic
 {
     public static class Utilities
     {

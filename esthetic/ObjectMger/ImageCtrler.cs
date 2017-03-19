@@ -54,8 +54,16 @@ namespace Esthetic
 
             parameters = new Dictionary<string, object>();
             parameters.Add("@Id", image.Id);
-            parameters.Add("@Title", image.Title);
-            parameters.Add("@Description", image.Description);
+
+            if (!String.IsNullOrEmpty(image.Title))
+                parameters.Add("@Title", image.Title);
+            else
+                parameters.Add("@Title", DBNull.Value);
+
+            if (!String.IsNullOrEmpty(image.Description))
+                parameters.Add("@Description", image.Description);
+            else
+                parameters.Add("@Description", DBNull.Value);
 
             ds = _dataAccess.ExecuteStoreProcedure("CreateImage", parameters);
 

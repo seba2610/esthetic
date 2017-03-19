@@ -27,6 +27,9 @@ namespace Esthetic.Models
         public List<Image> Images = new List<Image>();
         public List<Image> NewImages = new List<Image>();
 
+        public string ImageAbsolutePath = String.Empty;
+        public string ImageThumbnailAbsolutePath = String.Empty;
+
         public AdminModel()
         {
             CategorySelected = -1;

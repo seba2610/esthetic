@@ -1,7 +1,6 @@
 ﻿html{
     position:relative;
     min-height:100%;
-    min-width:355px;
 }
 
 body {
@@ -198,8 +197,87 @@ textarea {
 .categories-list{
     margin-top:15px;
 }
+
 .images-category {
     margin: 20px 0;
+}
+
+.images-category .row {
+    transition: max-height 0.5s;
+}
+
+.toggle-images-category {
+    cursor: pointer;
+}
+
+.toggle-images-category:hover {
+    color: #ddd;
+}
+
+.images-category .glyphicon{
+    margin:0 0 0 6px;
+    padding:0;
+    color: inherit;
+}
+
+.images-category .glyphicon:hover{
+    text-decoration: none;
+}
+
+.thumbnail{
+    background-color: #222;
+    border:none;
+    height:100%;
+    margin: 4px 0;
+}
+
+.thumbnail h3{
+    font-size:22px;
+}
+
+.thumbnail .caption{
+position: relative;
+    margin-bottom: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.thumbnail p {
+    padding: 0 4px;
+    margin: 0;
+}
+
+.thumbnail .img-wrapper{
+    padding: 5px;
+    width: 100%;
+    height: 130px;
+    border-bottom: 1px solid #444;
+}
+
+.thumbnail .img-wrapper img {
+    display:block;
+    top: 50%;
+    position: relative;
+    transform: translate(0,-50%);
+    margin:auto;
+}
+
+.thumbnail i {
+    color: silver;
+    font-size: 12px;
+}
+
+.thumbnail .row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+  flex-wrap: wrap;
+}
+.row > [class*='col-'] {
+  display: flex;
+  flex-direction: column;
 }
 
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
@@ -218,11 +296,18 @@ textarea {
     margin: 10px 0;
 }
 
+.zero-height{
+    max-height: 0 !important;
+    overflow:hidden;
+    transition: max-height 0.5s;
+    display:block;
+}
+
 /* Mimic table appearance */
 div.table {
     display: block;
     max-height: 400px;
-    min-height: 100px;
+    min-height: 80px;
     overflow-y: auto;
     overflow-x: hidden;
     margin-bottom: 0;
@@ -236,10 +321,11 @@ div.table .file-row {
 div.table .file-row > div {
     display: table-cell;
     vertical-align: middle;
-    padding: 8px;
+    padding:4px;
+    text-align:center;
 }
 div.table .file-row:nth-child(odd) {
-    background: #333;
+    background: #444;
 }
 
 .file-row.row{
