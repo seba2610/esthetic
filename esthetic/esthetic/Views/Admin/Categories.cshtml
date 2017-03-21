@@ -25,53 +25,8 @@ else
 {
     foreach (Esthetic.Category category in Model.Categories)
     {
-        <div class="categories-list">
-            <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                    <span><strong>@category.Name</strong> 
-                        @if (category.Parent != null)
-                        {
-                            <strong>(@category.Parent.Name)</strong>
-                        }
-                    </span>
-                    <p>@category.Description</p>
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                    <span class="btn btn-link edit-category-btn">Editar</span>
-                </div>
-            </div>
-            <div class="row display-none">
-                @using (Html.BeginForm("UpdateCategory", "Admin", new { id = category.Id }, FormMethod.Post, new { @class = "edit-form col-xs-12 col-sm-12 col-md-6 col-lg-6" }))
-                {
-                    <div>
-                        <div>
-                            @Html.LabelFor(model => Model.EditCategoryName)
-                            @Html.EditorFor(model => Model.EditCategoryName, new { htmlAttributes = new { @class = "form-control", @Value = category.Name } })
-
-                            @Html.LabelFor(model => Model.EditCategoryDescription)
-                            @Html.TextArea("EditCategoryDescription", category.Description, new { @class = "form-control" })
-
-                            @Html.LabelFor(model => Model.CategorySelected)
-                            @if (category.Parent != null)
-                            {
-                                @Html.DropDownListFor(model => model.CategorySelected, new SelectList(Model.Categories, "Id", "Name"), new { @class = "form-control", id = "cat-sel-" + category.Id })
-                                <script>
-                                    var func = (function () { document.getElementById('cat-sel-@category.Id').value = "@category.Parent.Id"; })();
-                                </script>
-                            }
-                            else
-                            {
-                                @Html.DropDownListFor(model => model.CategorySelected, new SelectList(Model.Categories, "Id", "Name"), "Elegir categoría...", new { @class = "form-control"})
-                            }
-                        </div>
-
-                        <span class="btn btn-link cancel-edit-category">Cancelar</span>
-                        <input type="submit" class="btn btn-link" value="Guardar cambios" />
-                        <span id="@category.Id" class="btn btn-sm btn-danger delete-category">Eliminar</span>
-                    </div>
-                }
-            </div>
-        </div>
+        Model.Category = category;
+        @Html.Partial("Category", Model)
     }
 }
 

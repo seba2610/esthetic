@@ -105,7 +105,12 @@ namespace Esthetic
 
             parameters = new Dictionary<string, object>();
             parameters.Add("@Name", category.Name);
-            parameters.Add("@Description", category.Description);
+
+            if (!String.IsNullOrEmpty(category.Description))
+                parameters.Add("@Description", category.Description);
+            else
+                parameters.Add("@Description", DBNull.Value);
+
             parameters.Add("@ParentId", category.Parent.Id);
 
             ds = _dataAccess.ExecuteStoreProcedure("CreateCategory", parameters);
@@ -184,6 +189,28 @@ namespace Esthetic
             return result;
         }
 
+        public List<Category> GetCategoriesFromImage(string imageId)
+        {
+            List<Category> result = new List<Category>();
+
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            DataSet ds = null;
+
+            parameters.Add("@ImageId", imageId);
+
+            ds = _dataAccess.ExecuteStoreProcedure("GetCategoriesFromImage", parameters);
+
+            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    result.Add(new Category(dr));
+                }
+            }
+
+            return result;
+        }
+
         public List<Image> GetAllImages()
         {
             List<Image> result = new List<Image>();
@@ -215,6 +242,134 @@ namespace Esthetic
                         image.Categories.Add(new Category(dr));
                     }
                 }
+            }
+
+            return result;
+        }
+
+        public List<Image> GetImagesFromCategory(int categoryId)
+        {
+            List<Image> result = new List<Image>();
+
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@CategoryId", categoryId);
+
+            DataSet ds = _dataAccess.ExecuteStoreProcedure("GetImagesFromCategory", parameters);
+
+            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    result.Add(new Image(dr));
+                }
+            }
+
+            foreach (Image image in result)
+            {
+                parameters = new Dictionary<string, object>();
+                parameters.Add("@ImageId", image.Id);
+
+                ds = _dataAccess.ExecuteStoreProcedure("GetImageCategories", parameters);
+
+                if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        image.Categories.Add(new Category(dr));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public int DeleteImagesFromCategory(int categoryId)
+        {
+            int result = -1;
+
+            Dictionary<string, object> parameters = null;
+            DataSet ds = null;
+
+            parameters = new Dictionary<string, object>();
+            parameters.Add("@CategoryId", categoryId);
+
+            ds = _dataAccess.ExecuteStoreProcedure("DeleteImagesFromCategory", parameters);
+
+            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                result = Convert.ToInt32(ds.Tables[0].Rows[0][0]);
+            }
+
+            return result;
+        }
+
+        public int DeleteImageFromCategory(int categoryId, string imageId)
+        {
+            int result = -1;
+
+            Dictionary<string, object> parameters = null;
+            DataSet ds = null;
+
+            parameters = new Dictionary<string, object>();
+            parameters.Add("@CategoryId", categoryId);
+            parameters.Add("@ImageId", imageId);
+
+            ds = _dataAccess.ExecuteStoreProcedure("DeleteImageFromCategory", parameters);
+
+            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                result = Convert.ToInt32(ds.Tables[0].Rows[0][0]);
+            }
+
+            return result;
+        }
+
+        public int DeleteImage(string imageId)
+        {
+            int result = -1;
+
+            Dictionary<string, object> parameters = null;
+            DataSet ds = null;
+
+            parameters = new Dictionary<string, object>();
+            parameters.Add("@ImageId", imageId);
+
+            ds = _dataAccess.ExecuteStoreProcedure("DeleteImage", parameters);
+
+            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                result = Convert.ToInt32(ds.Tables[0].Rows[0][0]);
+            }
+
+            return result;
+        }
+
+        public int UpdateImage(Image image)
+        {
+            int result = -1;
+
+            Dictionary<string, object> parameters = null;
+            DataSet ds = null;
+
+            parameters = new Dictionary<string, object>();
+            parameters.Add("@Id", image.Id);
+
+            if (!String.IsNullOrEmpty(image.Title))
+                parameters.Add("@Title", image.Title);
+            else
+                parameters.Add("@Title", DBNull.Value);
+
+            if (!String.IsNullOrEmpty(image.Description))
+                parameters.Add("@Description", image.Description);
+            else
+                parameters.Add("@Description", DBNull.Value);
+
+
+            ds = _dataAccess.ExecuteStoreProcedure("UpdateImage", parameters);
+
+            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                result = Convert.ToInt32(ds.Tables[0].Rows[0][0]);
             }
 
             return result;

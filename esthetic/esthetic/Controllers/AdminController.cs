@@ -26,6 +26,12 @@ namespace Esthetic.Controllers
             AdminModel model = new AdminModel();
             model.Categories = ImageCtrler.Instance.GetCategories();
             model.Images = ImageCtrler.Instance.GetAllImages();
+
+            foreach (Image image in model.Images)
+            {
+                image.Categories = ImageCtrler.Instance.GetCategoriesFromImage(image.Id);
+            }
+
             model.ImageAbsolutePath = new DirectoryInfo(string.Format(EnumConst.ImagesPath, Server.MapPath("/"))).ToString();
             model.ImageThumbnailAbsolutePath = string.Format(EnumConst.ThumbnailImagesPath, model.ImageAbsolutePath);
             return View(model);
@@ -49,8 +55,16 @@ namespace Esthetic.Controllers
             string desc = model.EditCategoryDescription;
             int parent_id = model.CategorySelected;
 
-            ImageCtrler.Instance.UpdateCategory(new Category() {Id = id, Name = name, Description = desc, Parent = new Category() { Id = parent_id } });
-            return RedirectToAction("Categories");
+            AdminModel new_model = new AdminModel();
+            Category category = new Category() { Id = id, Name = name, Description = desc, Parent = new Category() { Id = parent_id } };
+
+            ImageCtrler.Instance.UpdateCategory(category);
+
+            new_model.Categories = ImageCtrler.Instance.GetCategories();
+
+            new_model.Category = new_model.Categories.Find(c => c.Id == id);
+
+            return PartialView("Category", new_model);
         }
 
         public ActionResult DeleteCategory(int id)
@@ -127,5 +141,49 @@ namespace Esthetic.Controllers
                 return Json(new { Message = "Hubo un error al guardar el archivo" });
             }
         }
+
+        public ActionResult DeleteImagesFromCategory(int categoryId)
+        {
+            List<Image> images = ImageCtrler.Instance.GetImagesFromCategory(categoryId);
+            ImageCtrler.Instance.DeleteImagesFromCategory(categoryId);
+
+            //Elimino las imagenes que estaban unicamente en esta categoria.
+            foreach (Image image in images.Where(i => i.Categories.Count == 1))
+            {
+                ImageCtrler.Instance.DeleteImage(image.Id);
+            }
+
+            return RedirectToAction("Images");
+        }
+
+        [HttpPost]
+        public ActionResult UpdateImage(AdminModel model, string id)
+        {
+            string title = model.EditImageTitle;
+            string desc = model.EditImageDescription;
+
+            AdminModel new_model = new AdminModel();
+            new_model.Image = new Image() { Id = id, Title = title, Description = desc };
+
+            new_model.Image.Categories = ImageCtrler.Instance.GetCategoriesFromImage(id);
+
+            ImageCtrler.Instance.UpdateImage(new_model.Image);
+
+            return PartialView("ImageThumbnail", new_model);
+        }
+
+        public ActionResult RemoveImageFromCategory(int categoryId, string imageId)
+        {
+
+            ImageCtrler.Instance.DeleteImageFromCategory(categoryId, imageId);
+
+            List<Category> categories = ImageCtrler.Instance.GetCategoriesFromImage(imageId);
+
+            if (categories.Count == 0)
+                ImageCtrler.Instance.DeleteImage(imageId);
+
+            return RedirectToAction("Images");
+        }
+        
     }
 }

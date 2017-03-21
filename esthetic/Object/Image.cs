@@ -15,6 +15,8 @@ namespace Esthetic
 
         public List<Category> Categories;
 
+        public Image() { }
+
         public Image(string id)
         {
             Id = id;

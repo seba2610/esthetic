@@ -9,6 +9,8 @@ namespace Esthetic.Models
     public class AdminModel
     {
         public List<Category> Categories = new List<Category>();
+        public Category Category = new Category();
+
         [DisplayName("Nombre")]
         public string NewCategoryName { get; set; }
 
@@ -21,10 +23,19 @@ namespace Esthetic.Models
         [DisplayName("Descripción")]
         public string EditCategoryDescription { get; set; }
 
+        [DisplayName("Título")]
+        public string EditImageTitle { get; set; }
+
+        [DisplayName("Descripción")]
+        public string EditImageDescription { get; set; }
+
         [DisplayName("Categoría superior")]
         public int CategorySelected { get; set; }
+        public List<int> CategoriesSelected { get; set; }
 
         public List<Image> Images = new List<Image>();
+        public Image Image = new Image();
+
         public List<Image> NewImages = new List<Image>();
 
         public string ImageAbsolutePath = String.Empty;

@@ -37,8 +37,8 @@ function setAddImagesToCategoryDropzone() {
     });
 
     myDropzone.on("complete", function () {
-        if (this.getQueuedFiles().length == 0 &&
-            this.getUploadingFiles().length == 0) {
+        if (this.getQueuedFiles().length === 0 &&
+            this.getUploadingFiles().length === 0) {
             $("#actions .start").css("display", "none");
             $("#actions .cancel").css("display", "none");
         }
@@ -57,19 +57,20 @@ function setAddImagesToCategoryDropzone() {
 }
 
 $(document).ready(function () {
-    $('.edit-category-btn').on('click', function (event) {
-        $(this).parent().parent().parent().children('.display-none').removeClass('display-none'); 
-        $(this).parent().parent().parent().children().eq(0).addClass('display-none');
+
+    setCategoryButtons();
+
+    setThumbnailButtons();
+
+    $('.delete-images-from-category').on('click', function (event) {
+        $('#all-images-category-link').attr("href", $('#all-images-category-link-input').attr("value") + '?categoryId=' + $(this).attr("data-image-id"));
+        $('#all-images-category-modal').modal();
     });
 
-    $('.cancel-edit-category').on('click', function (event) {
-        $(this).parent().parent().parent().parent().children('.display-none').removeClass('display-none');
-        $(this).parent().parent().parent().parent().children().eq(1).addClass('display-none');
-    });
-
-    $('.delete-category').on('click', function (event) {
-        $('#delete-category-modal-link').attr("href", $('#delete-category-modal-input').attr("value") + '/' + $(this).attr("id"));
-        $('#delete-category-modal').modal();
+    $('.delete-img-from-category').on('click', function (event) {
+        var categoryId = $(event.target).parent().parent().parent().parent().parent().parent().attr("data-category-id");
+        $('#delete-image-category-link').attr("href", $('#delete-image-category-link-input').attr("value") + '?categoryId=' + categoryId + '&imageId=' + $(this).attr("data-image-id"));
+        $('#delete-image-category-modal').modal();
     });
 
     if ($('#jumbo-bottom')) {
@@ -98,7 +99,7 @@ $(document).ready(function () {
             if (!myDropzone)
                 setAddImagesToCategoryDropzone();
 
-            myDropzone.options.url = "AddImagesToCategory?categoryId=" + $(event.target).attr("data-image-id");
+            myDropzone.options.url = "AddImagesToCategory?categoryId=" + $(event.target).attr("data-category-id");
 
             filesAdded = false;
             $('#add-images-category-modal').modal();
@@ -128,3 +129,99 @@ $(document).ready(function () {
         });
     }
 });
+
+function setThumbnailButtons() {
+
+    $('.edit-image-btn').each(function (elem) {
+        if (!isOnClickBinded($(this))) {
+            $(this).on('click', function (event) {
+                var visibles = $(this).parent().parent().children('.display-block');
+                var hiddens = $(this).parent().parent().children('.display-none');
+
+                $(visibles).addClass('display-none').removeClass('display-block');
+                $(hiddens).addClass('display-block').removeClass('display-none');
+
+                $(this).parent().parent().parent().children('.img-wrapper').addClass('display-none');
+            });
+        }
+    });
+
+    $('.cancel-edit-image-btn').each(function (elem) {
+        if (!isOnClickBinded($(this))) {
+            $(this).on('click', function (event) {
+                var visibles = $(this).parent().parent().children('.display-block');
+                var hiddens = $(this).parent().parent().children('.display-none');
+
+                $(visibles).addClass('display-none').removeClass('display-block');
+                $(hiddens).addClass('display-block').removeClass('display-none');
+
+                $(this).parent().parent().parent().children('.img-wrapper').removeClass('display-none');
+            });
+        }
+    });
+
+    $('.add-image-category-btn').each(function (elem) {
+        if (!isOnClickBinded($(this))) {
+            $(this).on('click', function (event) {
+                var disable_categories = $(this).attr("data-categories-id").split(" ");
+                $('.category-checkbox').attr('disabled', false);
+
+                for (var i = 0; i < disable_categories.length; i++)
+                {
+                    var selector = '#checkbox_' + disable_categories[i];
+                    $(selector).attr('disabled', true);
+                }
+                $('#add-category-image-modal').modal();
+            });
+        }
+    });
+
+}
+
+function setCategoryButtons() {
+
+    $('.edit-category-btn').each(function (elem) {
+        if (!isOnClickBinded($(this))) {
+            $(this).on('click', function (event) {
+                $(this).parent().parent().children('.display-none').removeClass('display-none');
+                $(this).parent().parent().children().eq(0).addClass('display-none');
+            });
+        }
+    });
+
+    $('.cancel-edit-category').each(function (elem) {
+        if (!isOnClickBinded($(this))) {
+            $(this).on('click', function (event) {
+                $(this).parent().parent().children('.display-none').removeClass('display-none');
+                $(this).parent().parent().children().eq(1).addClass('display-none');
+            });
+        }
+    });
+
+    $('.delete-category').each(function (elem) {
+        if (!isOnClickBinded($(this))) {
+            $(this).on('click', function (event) {
+                $('#delete-category-modal-link').attr("href", $('#delete-category-modal-input').attr("value") + "/" + $(this).attr("id"));
+                $('#delete-category-modal').modal();
+            });
+        }
+    });
+}
+
+function isOnClickBinded(elem) {
+    var result = false;
+    var $events = jQuery._data(elem[0], "events");
+
+    if (typeof $events != "undefined") {
+        jQuery.each($events, function (i, event) {
+            jQuery.each(event, function (i, event) {
+                if (event.type && event.type === "click" && result === false) {
+                    result = true;
+                }
+            });
+        });
+    }
+
+    return result;
+
+}

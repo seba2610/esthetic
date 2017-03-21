@@ -1,0 +1,59 @@
+﻿@model Esthetic.Models.AdminModel
+
+<div class="thumbnail" id="thumbnail_@Model.Image.Id">
+    @using (Ajax.BeginForm("UpdateImage", "Admin", new { id = Uri.EscapeUriString(Model.Image.Id) }, new AjaxOptions
+    {//GetPatients is name of method in PatientController
+        InsertionMode = InsertionMode.ReplaceWith,
+        HttpMethod = "POST",
+        UpdateTargetId = "thumbnail_" + Model.Image.Id,
+        OnSuccess = "setThumbnailButtons"
+    }, new { target = "_self" }))
+    {
+        <div class="img-wrapper text-center">
+            <img src="@Url.Action("../images/thumbnail/", null, null, Request.Url.Scheme)/@Model.Image.Id" alt="...">
+        </div>
+
+        <div class="caption">
+            @if (String.IsNullOrEmpty(Model.Image.Title))
+            {
+                <p class="display-block"><i>No tiene título</i></p>
+            }
+            else
+            {
+                <p class="display-block"><strong>@Model.Image.Title</strong></p>
+            }
+
+
+            <label class="display-none" for="EditImageTitle">Título</label>
+            <input value="@Model.Image.Title" class="form-control display-none text-box single-line" id="EditImageTitle" name="EditImageTitle" type="text">
+
+            @if (String.IsNullOrEmpty(Model.Image.Description))
+            {
+                <p class="display-block desc"><i>No tiene descripción</i></p>
+            }
+            else
+            {
+                <p class="display-block desc">@Model.Image.Description</p>
+            }
+
+            <label class="display-none" for="EditImageDescription">Descripción</label>
+            <textarea class="form-control display-none" cols="20" id="EditImageDescription" name="EditImageDescription" rows="2">@Model.Image.Description</textarea>
+
+            <div class="display-block">
+                <a href="#" class="btn btn-link btn-xs add-image-category-btn pull-left" role="button" 
+                data-categories-id="@{ 
+                    foreach (Category cat in Model.Image.Categories)
+                    {
+                        Write(cat.Id + " ");
+                    } }"
+                 data-image-id="@Model.Image.Id">Agregar</a>
+                <a href="#" class="btn btn-link btn-xs edit-image-btn pull-left" role="button">Editar</a>
+                <a href="#" class="btn btn-link btn-xs pull-right delete-img-from-category" data-image-id="@Model.Image.Id" role="button">Quitar</a>
+            </div>
+            <div class="display-none">
+                <a href="#" class="btn btn-link btn-xs cancel-edit-image-btn pull-left" role="button">Cancelar</a>
+                <input type="submit" class="btn btn-link btn-xs pull-right" value="Guardar" />
+            </div>
+        </div>
+    }
+</div>
