@@ -31,14 +31,14 @@
             @Html.LabelFor(model => Model.CategorySelected)
             @if (Model.Category.Parent != null)
             {
-                @Html.DropDownListFor(model => model.CategorySelected, new SelectList(Model.Categories, "Id", "Name"), "Ninguna", new { @class = "form-control", id = "cat-sel-" + Model.Category.Id })
+                @Html.DropDownListFor(model => model.CategorySelected, new SelectList(Model.Categories.Where(c => c.Id != Model.Category.Id), "Id", "Name"), "Ninguna", new { @class = "form-control", id = "cat-sel-" + Model.Category.Id })
                 <script>
                     var func = (function () { document.getElementById('cat-sel-@Model.Category.Id').value = "@Model.Category.Parent.Id"; })();
                 </script>
             }
             else
             {
-                @Html.DropDownListFor(model => model.CategorySelected, new SelectList(Model.Categories, "Id", "Name"), "Elegir categoría...", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.CategorySelected, new SelectList(Model.Categories.Where(c => c.Id != Model.Category.Id), "Id", "Name"), "Elegir categoría...", new { @class = "form-control" })
             }
         </div>
 

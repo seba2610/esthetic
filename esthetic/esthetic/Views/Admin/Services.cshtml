@@ -1,0 +1,110 @@
+﻿@model Esthetic.Models.AdminModel
+
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation">
+        @Html.ActionLink("Categorías", "Categories")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Fotografías", "Images")
+    </li>
+    <li role="presentation" class="active">
+        @Html.ActionLink("Servicios", "Services")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Promociones", "Features")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Opciones", "Options")
+    </li>
+</ul>
+
+<div class="row">
+    <div class="col-md-6 col-lg-6">
+        <h3>Tipos de servicio</h3>
+        @if (Model.ServicesType.Count == 0)
+        {
+            <span><i>No hay tipo de servicios creados.</i></span>
+        }
+        else
+        {
+            foreach (Esthetic.ServiceType serviceType in Model.ServicesType)
+            {
+                Model.ServiceType = serviceType;
+                @Html.Partial("ServiceType", Model)
+            }
+        }
+        <h3>Crear nuevo tipo de servicio</h3>
+        <hr />
+        @using (Html.BeginForm("CreateServiceType", "Admin", FormMethod.Post))
+        {
+            @Html.LabelFor(model => Model.NewServiceName)
+            @Html.EditorFor(model => Model.NewServiceName, new { htmlAttributes = new { @class = "form-control" } })
+
+            @Html.LabelFor(model => Model.NewServiceDescription)
+            @Html.TextAreaFor(model => Model.NewServiceDescription, new { @class = "form-control" })
+
+            <input type="submit" class="btn btn-success" value="Crear" />
+        }
+    </div>
+    <div class="col-md-6 col-lg-6">
+    <h3>Servicios</h3>
+    @if (Model.Services.Count == 0)
+    {
+        <span><i>No hay servicios creados.</i></span>
+    }
+    else
+    {
+        foreach (Esthetic.Service service in Model.Services)
+        {
+            Model.Service = service;
+            @Html.Partial("Service", Model)
+        }
+    }
+
+        @if (Model.ServicesType.Count == 0)
+        {
+            <span><i>Debe haber al menos un tipo de servicio para poder crear un servicio.</i></span>
+        }
+        else
+        {
+            <h3>Crear nuevo servicio</h3>
+            <hr />
+            using (Html.BeginForm("CreateService", "Admin", FormMethod.Post))
+            {
+                @Html.LabelFor(model => Model.NewServiceName)
+                @Html.EditorFor(model => Model.NewServiceName, new { htmlAttributes = new { @class = "form-control" } })
+
+                @Html.LabelFor(model => Model.NewServiceDescription)
+                @Html.TextAreaFor(model => Model.NewServiceDescription, new { @class = "form-control" })
+
+                if (Model.Categories.Count > 0)
+                {
+                    @Html.LabelFor(model => Model.CategorySelected)
+                    @Html.DropDownListFor(model => model.CategorySelected, new SelectList(Model.Categories, "Id", "Name"), "Elegir categoría... ", new { @class = "form-control" })
+                }
+
+                <input type="submit" class="btn btn-success" value="Crear" />
+            }
+        }
+    </div>
+</div>
+
+<div class="modal fade" id="delete-category-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Eliminar categoría</h4>
+            </div>
+            <div class="modal-body">
+                <p><strong>Las fotografías que se encuentren solo en esta categoría también serán eliminadas.</strong></p>
+                <p>¿Seguro que desea eliminar la categoría?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Cancelar</button>
+                <input type="hidden" id="delete-category-modal-input" value="@Url.Action("DeleteCategory")" />
+                <a id="delete-category-modal-link" class="btn btn-danger" href="/">Eliminar</a>
+            </div>
+        </div>
+    </div>
+</div>

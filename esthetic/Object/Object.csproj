@@ -52,6 +52,8 @@
     <Compile Include="EnumConst.cs" />
     <Compile Include="Image.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service.cs" />
+    <Compile Include="ServiceType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

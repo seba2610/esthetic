@@ -41,6 +41,29 @@ namespace Esthetic.Models
         public string ImageAbsolutePath = String.Empty;
         public string ImageThumbnailAbsolutePath = String.Empty;
 
+        public Service Service = new Service();
+        public ServiceType ServiceTypeSelected = new ServiceType();
+        public ServiceType ServiceType = new ServiceType();
+        public Service NewService = new Service();
+
+        [DisplayName("Nombre")]
+        public string NewServiceName { get; set; }
+
+        [DisplayName("Descripción")]
+        public string NewServiceDescription { get; set; }
+
+        [DisplayName("Nombre")]
+        public string EditServiceName { get; set; }
+
+        [DisplayName("Descripción")]
+        public string EditServiceDescription { get; set; }
+
+        [DisplayName("Tipo de servicio")]
+        public int EditServiceType { get; set; }
+
+        public List<Service> Services = new List<Service>();
+        public List<ServiceType> ServicesType = new List<ServiceType>();
+
         public AdminModel()
         {
             CategorySelected = -1;

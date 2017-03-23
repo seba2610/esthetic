@@ -45,9 +45,6 @@ function setAddImagesToCategoryDropzone() {
         filesAdded = true;
     });
 
-    // Setup the buttons for all transfers
-    // The "add files" button doesn't need to be setup because the config
-    // `clickable` has already been specified.
     document.querySelector("#actions .start").onclick = function () {
         myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
     };
@@ -140,7 +137,6 @@ function setThumbnailButtons() {
 
                 $(visibles).addClass('display-none').removeClass('display-block');
                 $(hiddens).addClass('display-block').removeClass('display-none');
-
                 $(this).parent().parent().parent().children('.img-wrapper').addClass('display-none');
             });
         }
@@ -151,10 +147,8 @@ function setThumbnailButtons() {
             $(this).on('click', function (event) {
                 var visibles = $(this).parent().parent().children('.display-block');
                 var hiddens = $(this).parent().parent().children('.display-none');
-
                 $(visibles).addClass('display-none').removeClass('display-block');
                 $(hiddens).addClass('display-block').removeClass('display-none');
-
                 $(this).parent().parent().parent().children('.img-wrapper').removeClass('display-none');
             });
         }
@@ -164,13 +158,23 @@ function setThumbnailButtons() {
         if (!isOnClickBinded($(this))) {
             $(this).on('click', function (event) {
                 var disable_categories = $(this).attr("data-categories-id").split(" ");
+                var image_id = $(this).attr("data-image-id");
+                $("#add-image-to-category-id").attr("value", image_id);
                 $('.category-checkbox').attr('disabled', false);
 
-                for (var i = 0; i < disable_categories.length; i++)
-                {
+                for (var i = 0; i < disable_categories.length; i++){
                     var selector = '#checkbox_' + disable_categories[i];
                     $(selector).attr('disabled', true);
                 }
+
+                $('.category-checkbox').on('change', function (event) {
+                    if ($('.category-checkbox:checked').length > 0) {
+                        $('#add-image-category-link').css("display", "inline-block");
+                    }
+                    else
+                        $('#add-image-category-link').css("display", "none");
+                });
+
                 $('#add-category-image-modal').modal();
             });
         }

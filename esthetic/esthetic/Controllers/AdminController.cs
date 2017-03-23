@@ -69,7 +69,22 @@ namespace Esthetic.Controllers
 
         public ActionResult DeleteCategory(int id)
         {
+            List<Image> images = ImageCtrler.Instance.GetImagesFromCategory(id);
+            List<string> imagesToDelete = new List<string>();
+
+            foreach (Image image in images)
+            {
+                if (ImageCtrler.Instance.GetCategoriesFromImage(image.Id).Count == 1)
+                    imagesToDelete.Add(image.Id);
+            }
+
+            foreach (string imageId in imagesToDelete)
+            {
+                ImageCtrler.Instance.DeleteImage(imageId);
+            }
+
             ImageCtrler.Instance.DeleteCategory(id);
+
             return RedirectToAction("Categories");
         }
 
@@ -142,6 +157,19 @@ namespace Esthetic.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult AddImageToCategory(AdminModel model, string imageId)
+        {
+            if (model.CategoriesSelected != null) {
+                foreach (int categoryId in model.CategoriesSelected)
+                {
+                    ImageCtrler.Instance.AddImageToCategory(imageId, categoryId);
+                }
+            }
+
+            return RedirectToAction("Images");
+        }
+
         public ActionResult DeleteImagesFromCategory(int categoryId)
         {
             List<Image> images = ImageCtrler.Instance.GetImagesFromCategory(categoryId);
@@ -169,7 +197,7 @@ namespace Esthetic.Controllers
 
             ImageCtrler.Instance.UpdateImage(new_model.Image);
 
-            return PartialView("ImageThumbnail", new_model);
+            return PartialView("Image", new_model);
         }
 
         public ActionResult RemoveImageFromCategory(int categoryId, string imageId)
@@ -184,6 +212,25 @@ namespace Esthetic.Controllers
 
             return RedirectToAction("Images");
         }
-        
+
+        public ActionResult Services()
+        {
+            AdminModel model = new AdminModel();
+            model.Services = ServiceCtrler.Instance.GetAllServices();
+            model.ServicesType = ServiceCtrler.Instance.GetAllServicesType();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult CreateServiceType(AdminModel model)
+        {
+            string name = model.NewServiceName;
+            string desc = model.NewServiceDescription;
+
+            ServiceCtrler.Instance.CreateServiceType(new ServiceType() { Name = name, Description = desc});
+            return RedirectToAction("Services");
+        }
+
     }
 }

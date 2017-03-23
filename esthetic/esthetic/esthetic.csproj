@@ -290,8 +290,11 @@
     <Content Include="Views\Home\Images.cshtml" />
     <Content Include="Views\Admin\Categories.cshtml" />
     <Content Include="Views\Admin\Images.cshtml" />
-    <Content Include="Views\Admin\ImageThumbnail.cshtml" />
+    <Content Include="Views\Admin\Image.cshtml" />
     <Content Include="Views\Admin\Category.cshtml" />
+    <Content Include="Views\Admin\Services.cshtml" />
+    <Content Include="Views\Admin\Service.cshtml" />
+    <Content Include="Views\Admin\ServiceType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

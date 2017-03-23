@@ -16,6 +16,7 @@ namespace Esthetic
         public void ConfigureAuth(IAppBuilder app)
         {
             ImageCtrler.SetConnStrDataBase(EnumConst.DataAccessProvider.SqlServer, ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            ServiceCtrler.SetConnStrDataBase(EnumConst.DataAccessProvider.SqlServer, ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
             ConfigurationCtrler.SetConnStrDataBase(EnumConst.DataAccessProvider.SqlServer, ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
 
             // Configure the db context, user manager and signin manager to use a single instance per request
