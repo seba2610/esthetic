@@ -295,6 +295,7 @@
     <Content Include="Views\Admin\Services.cshtml" />
     <Content Include="Views\Admin\Service.cshtml" />
     <Content Include="Views\Admin\ServiceType.cshtml" />
+    <Content Include="Views\Admin\Features.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

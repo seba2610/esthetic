@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationCtrler.cs" />
+    <Compile Include="FeatureCtrler.cs" />
     <Compile Include="ImageCtrler.cs" />
     <Compile Include="LogMger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

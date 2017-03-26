@@ -50,6 +50,7 @@
     <Compile Include="Category.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="EnumConst.cs" />
+    <Compile Include="Feature.cs" />
     <Compile Include="Image.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service.cs" />

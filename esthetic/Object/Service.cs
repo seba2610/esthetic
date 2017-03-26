@@ -18,6 +18,9 @@ namespace Esthetic
         [DisplayName("Descripción")]
         public string Description { get; set; }
 
+        [DisplayName("Costo")]
+        public string Cost { get; set; }
+
         [DisplayName("Tipo de servicio")]
         public int ServiceTypeId { get; set; }
 
@@ -28,6 +31,7 @@ namespace Esthetic
             Id = Int32.Parse(dr["Id"].ToString());
             Name = dr["Name"].ToString();
             Description = dr["Description"] == DBNull.Value ? String.Empty : dr["Description"].ToString();
+            Cost = dr["Cost"] == DBNull.Value ? String.Empty : dr["Cost"].ToString();
             ServiceTypeId = Int32.Parse(dr["ServiceTypeId"].ToString());
         }
     }

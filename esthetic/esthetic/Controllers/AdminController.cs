@@ -42,7 +42,10 @@ namespace Esthetic.Controllers
         {
             string name = model.NewCategoryName;
             string desc = model.NewCategoryDescription;
-            int parent_id = model.CategorySelected;
+            int parent_id = -1;
+
+            if (model.CategorySelected.HasValue)
+                parent_id = model.CategorySelected.Value;
 
             ImageCtrler.Instance.CreateCategory(new Category() { Name = name, Description = desc, Parent = new Category() { Id = parent_id } });
             return RedirectToAction("Categories");
@@ -53,7 +56,11 @@ namespace Esthetic.Controllers
         {
             string name = model.EditCategoryName;
             string desc = model.EditCategoryDescription;
-            int parent_id = model.CategorySelected;
+
+            int parent_id = -1;
+
+            if (model.CategorySelected.HasValue)
+                parent_id = model.CategorySelected.Value;
 
             AdminModel new_model = new AdminModel();
             Category category = new Category() { Id = id, Name = name, Description = desc, Parent = new Category() { Id = parent_id } };
@@ -232,5 +239,77 @@ namespace Esthetic.Controllers
             return RedirectToAction("Services");
         }
 
+        [HttpPost]
+        public ActionResult UpdateServiceType(AdminModel model, int id)
+        {
+            string name = model.EditServiceName;
+            string desc = model.EditServiceDescription;
+
+            AdminModel new_model = new AdminModel();
+            new_model.ServiceType = new ServiceType() { Id = id, Name = name, Description = desc };
+
+            ServiceCtrler.Instance.UpdateServiceType(new_model.ServiceType);
+
+            return PartialView("ServiceType", new_model);
+        }
+
+        public ActionResult DeleteServiceType(int id)
+        {
+            List<Service> services = ServiceCtrler.Instance.GetServiceTypeServices(id);
+
+            foreach (Service service in services)
+            {
+                ServiceCtrler.Instance.DeleteService(service.Id);
+            }
+
+            ServiceCtrler.Instance.DeleteServiceType(id);
+
+            return RedirectToAction("Services");
+        }
+
+        public ActionResult DeleteService(int id)
+        {
+            List<Service> services = ServiceCtrler.Instance.GetServiceTypeServices(id);
+
+            ServiceCtrler.Instance.DeleteService(id);
+
+            return RedirectToAction("Services");
+        }
+
+        [HttpPost]
+        public ActionResult CreateService(AdminModel model)
+        {
+            string name = model.NewServiceName;
+            string desc = model.NewServiceDescription;
+            string cost = model.NewServiceCost;
+            int serviceTypeId = model.ServiceTypeSelected;
+
+            ServiceCtrler.Instance.CreateService(new Service() { Name = name, Description = desc, Cost = cost, ServiceTypeId = serviceTypeId });
+            return RedirectToAction("Services");
+        }
+
+        public ActionResult UpdateService(AdminModel model, int id)
+        {
+            string name = model.EditServiceName;
+            string desc = model.EditServiceDescription;
+            string cost = model.EditServiceCost;
+            int serviceTypeId = model.ServiceTypeSelected;
+
+            AdminModel new_model = new AdminModel();
+            new_model.Service = new Service() { Id = id, Name = name, Description = desc, Cost = cost, ServiceTypeId = serviceTypeId };
+            new_model.ServiceType = ServiceCtrler.Instance.GetServiceType(serviceTypeId);
+            new_model.ServicesType = ServiceCtrler.Instance.GetAllServicesType();
+            ServiceCtrler.Instance.UpdateService(new_model.Service);
+
+            return PartialView("Service", new_model);
+        }
+
+        public ActionResult Features()
+        {
+            AdminModel model = new AdminModel();
+            model.Features = FeatureCtrler.Instance.GetAllFeatures();
+
+            return View(model);
+        }
     }
 }

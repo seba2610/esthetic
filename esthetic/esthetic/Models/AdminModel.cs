@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -30,7 +31,7 @@ namespace Esthetic.Models
         public string EditImageDescription { get; set; }
 
         [DisplayName("Categoría superior")]
-        public int CategorySelected { get; set; }
+        public int? CategorySelected { get; set; }
         public List<int> CategoriesSelected { get; set; }
 
         public List<Image> Images = new List<Image>();
@@ -42,27 +43,39 @@ namespace Esthetic.Models
         public string ImageThumbnailAbsolutePath = String.Empty;
 
         public Service Service = new Service();
-        public ServiceType ServiceTypeSelected = new ServiceType();
+
+        [DisplayName("Tipo de servicio")]
+        public int ServiceTypeSelected { get; set; }
+
         public ServiceType ServiceType = new ServiceType();
         public Service NewService = new Service();
 
         [DisplayName("Nombre")]
+        [Required(ErrorMessage = "El nombre no puede ser vacío")]
         public string NewServiceName { get; set; }
 
         [DisplayName("Descripción")]
         public string NewServiceDescription { get; set; }
 
+        [DisplayName("Costo")]
+        public string NewServiceCost { get; set; }
+
         [DisplayName("Nombre")]
+        [Required(ErrorMessage = "El nombre no puede ser vacío")]
         public string EditServiceName { get; set; }
 
         [DisplayName("Descripción")]
         public string EditServiceDescription { get; set; }
+
+        [DisplayName("Costo")]
+        public string EditServiceCost { get; set; }
 
         [DisplayName("Tipo de servicio")]
         public int EditServiceType { get; set; }
 
         public List<Service> Services = new List<Service>();
         public List<ServiceType> ServicesType = new List<ServiceType>();
+        public List<Feature> Features = new List<Feature>();
 
         public AdminModel()
         {

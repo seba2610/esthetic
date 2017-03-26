@@ -38,7 +38,7 @@
             }
             else
             {
-                @Html.DropDownListFor(model => model.CategorySelected, new SelectList(Model.Categories.Where(c => c.Id != Model.Category.Id), "Id", "Name"), "Elegir categoría...", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.CategorySelected, new SelectList(Model.Categories.Where(c => c.Id != Model.Category.Id), "Id", "Name"), "Ninguna", new { @class = "form-control" })
             }
         </div>
 

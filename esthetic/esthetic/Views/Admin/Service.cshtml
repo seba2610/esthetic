@@ -1,13 +1,13 @@
 ﻿@model Esthetic.Models.AdminModel
 
-<div class="services-list" id="category_@Model.Service.Id">
-    @using (Ajax.BeginForm("UpdateService", "Admin", new { id = Model.Service.Id }, new AjaxOptions
+<div class="categories-list" id="service_@Model.Service.Id">
+    @using (Ajax.BeginForm("UpdateService", "Admin", new { id = Model.Service.Id}, new AjaxOptions
     {
         InsertionMode = InsertionMode.ReplaceWith,
         HttpMethod = "POST",
         UpdateTargetId = "service_" + Model.Service.Id,
-        OnSuccess = "setServiceButtons"
-    }, null))
+        OnSuccess = "setServicesButtons"
+    }, new { @class = "edit-service-form" }))
     {
         <div>
             <span class="btn btn-link edit-service-btn pull-right">Editar</span>
@@ -21,12 +21,16 @@
             <div>
                 @Html.LabelFor(model => Model.EditServiceName)
                 @Html.EditorFor(model => Model.EditServiceName, new { htmlAttributes = new { @class = "form-control", @Value = Model.Service.Name } })
+                @Html.ValidationMessageFor(Model => Model.EditServiceName)
+
+                @Html.LabelFor(model => Model.EditServiceCost)
+                @Html.EditorFor(model => Model.EditServiceCost, new { htmlAttributes = new { @class = "form-control", @Value = Model.Service.Cost } })
 
                 @Html.LabelFor(model => Model.EditServiceDescription)
                 @Html.TextArea("EditServiceDescription", @Model.Service.Description, new { @class = "form-control" })
 
                 @Html.LabelFor(model => Model.ServiceTypeSelected)
-                @Html.DropDownListFor(model => model.ServiceTypeSelected, new SelectList(Model.ServicesType.Where(c => c.Id != Model.Service.ServiceTypeId), "Id", "Name"), new { @class = "form-control", id = "ser-sel-" + Model.Service.Id })
+                @Html.DropDownListFor(model => model.ServiceTypeSelected, new SelectList(Model.ServicesType, "Id", "Name"), new { @class = "form-control", id = "ser-sel-" + Model.Service.Id })
                 <script>
                     var func = (function () { document.getElementById('ser-sel-@Model.Service.Id').value = "@Model.Service.ServiceTypeId"; })();
                 </script>

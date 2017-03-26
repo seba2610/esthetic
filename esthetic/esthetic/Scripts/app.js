@@ -57,6 +57,10 @@ $(document).ready(function () {
 
     setCategoryButtons();
 
+    setServicesTypeButtons();
+
+    setServicesButtons();
+
     setThumbnailButtons();
 
     $('.delete-images-from-category').on('click', function (event) {
@@ -210,6 +214,68 @@ function setCategoryButtons() {
             });
         }
     });
+}
+
+function setServicesTypeButtons() {
+
+    $('.edit-service-type-btn').each(function (elem) {
+        if (!isOnClickBinded($(this))) {
+            $(this).on('click', function (event) {
+                $(this).parent().parent().children('.display-none').removeClass('display-none');
+                $(this).parent().parent().children().eq(0).addClass('display-none');
+            });
+        }
+    });
+
+    $('.cancel-edit-service-type').each(function (elem) {
+        if (!isOnClickBinded($(this))) {
+            $(this).on('click', function (event) {
+                $(this).parent().parent().children('.display-none').removeClass('display-none');
+                $(this).parent().parent().children().eq(1).addClass('display-none');
+            });
+        }
+    });
+
+    $('.delete-service-type').each(function (elem) {
+        if (!isOnClickBinded($(this))) {
+            $(this).on('click', function (event) {
+                $('#delete-service-type-modal-link').attr("href", $('#delete-service-type-modal-input').attr("value") + "/" + $(this).attr("id"));
+                $('#delete-service-type-modal').modal();
+            });
+        }
+    });
+}
+
+function setServicesButtons() {
+
+    $('.edit-service-btn').each(function (elem) {
+        if (!isOnClickBinded($(this))) {
+            $(this).on('click', function (event) {
+                $(this).parent().parent().children('.display-none').removeClass('display-none');
+                $(this).parent().parent().children().eq(0).addClass('display-none');
+            });
+        }
+    });
+
+    $('.cancel-edit-service').each(function (elem) {
+        if (!isOnClickBinded($(this))) {
+            $(this).on('click', function (event) {
+                $(this).parent().parent().children('.display-none').removeClass('display-none');
+                $(this).parent().parent().children().eq(1).addClass('display-none');
+            });
+        }
+    });
+
+    $('.delete-service').each(function (elem) {
+        if (!isOnClickBinded($(this))) {
+            $(this).on('click', function (event) {
+                $('#delete-service-modal-link').attr("href", $('#delete-service-modal-input').attr("value") + "/" + $(this).attr("id"));
+                $('#delete-service-modal').modal();
+            });
+        }
+    });
+
+    $.validator.unobtrusive.parse(".edit-service-form");
 }
 
 function isOnClickBinded(elem) {

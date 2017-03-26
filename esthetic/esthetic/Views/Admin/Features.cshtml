@@ -1,0 +1,36 @@
+﻿@model Esthetic.Models.AdminModel
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation">
+        @Html.ActionLink("Categorías", "Categories")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Fotografías", "Images")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Servicios", "Services")
+    </li>
+    <li role="presentation" class="active">
+        @Html.ActionLink("Promociones", "Features")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Opciones", "Options")
+    </li>
+</ul>
+
+@if (Model.Features.Count == 0)
+{
+    <span><i>No hay promociones creadas.</i></span>
+}
+else
+{
+    foreach (Esthetic.Feature feature in Model.Features)
+    {
+        <div>
+            <div class="img-wrapper text-center">
+                <img src="@Url.Action("../images/thumbnail/", null, null, Request.Url.Scheme)/@feature.Id" alt="...">
+            </div>
+            <span class="btn btn-link edit-category-btn pull-right">Editar</span>
+            <span class="btn btn-link edit-category-btn pull-right">Eliminar</span>
+        </div>
+    }
+}

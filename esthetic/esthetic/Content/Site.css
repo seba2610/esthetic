@@ -16,6 +16,10 @@ h1,h2,h3,h4,label, dl, dt, dd, p, address, span, i{
     color:white;
 }
 
+h4{
+    margin-bottom: 4px;
+}
+
 hr{
     margin: 5px 0;
 }
@@ -182,6 +186,10 @@ textarea {
     margin: 6px 0;
 }
 
+.nav-tabs {
+    margin-bottom: 10px;
+}
+
 #map {
     width: 100%;
     height: 400px;
@@ -214,7 +222,7 @@ textarea {
 }
 
 .categories-list{
-    margin-top:15px;
+    margin-bottom:15px;
     border-bottom: 1px solid #444;
 }
 
@@ -412,6 +420,16 @@ div.table .file-row:nth-child(odd) {
 }
 #previews .file-row.dz-success .delete {
     display: block;
+}
+
+.field-validation-error {
+    display: block;
+    margin-top: -12px;
+    margin-bottom: 5px;
+    font-size: 13px;
+}
+.field-validation-error > span {
+    color: red;
 }
 
 @media screen and (min-width:768px) {
