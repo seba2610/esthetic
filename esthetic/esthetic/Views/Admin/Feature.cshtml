@@ -1,0 +1,51 @@
+﻿@model Esthetic.Models.AdminModel
+
+<div class="thumbnail" id="feature_@Model.Feature.Id">
+    @using (Ajax.BeginForm("UpdateFeature", "Admin", new { id = Uri.EscapeUriString(Model.Feature.Id) }, new AjaxOptions
+    {//GetPatients is name of method in PatientController
+        InsertionMode = InsertionMode.ReplaceWith,
+        HttpMethod = "POST",
+        UpdateTargetId = "feature_" + Model.Feature.Id,
+        OnSuccess = "setFeatureButtons"
+    }, new { target = "_self" }))
+    {
+        <div class="img-wrapper text-center">
+            <div class="img-container" style="background-image:url('@Url.Action("../images/features/", null, null, Request.Url.Scheme)@Model.Feature.Id')"></div>
+        </div>
+
+        <div class="caption">
+            @if (String.IsNullOrEmpty(Model.Feature.Description))
+            {
+                <p class="display-block desc"><i>No tiene descripción</i></p>
+            }
+            else
+            {
+                <p class="display-block desc">@Model.Feature.Description</p>
+            }
+
+            <label class="display-none" for="EditFeatureDescription">Descripción</label>
+            <textarea class="form-control display-none" cols="20" id="EditFeatureDescription" name="EditFeatureDescription" rows="2">@Model.Feature.Description</textarea>
+
+            <div class="checkbox display-none feature-checkbox">
+                <label>
+                    @{
+                        Model.EditFeatureActive = Model.Feature.Active;
+                        @Html.CheckBoxFor(model => model.EditFeatureActive)
+                     }
+                    Activa
+                </label>
+            </div>
+
+            <div class="display-block">
+                <a href="#" class="btn btn-link btn-xs edit-feature-btn pull-left" role="button">Editar</a>
+                <a href="#" class="btn btn-link btn-xs pull-right delete-feature" data-feature-id="@Model.Feature.Id" role="button">Eliminar</a>
+            </div>
+
+            <div class="display-none">
+                <a href="#" class="btn btn-link btn-xs cancel-edit-feature-btn pull-left" role="button">Cancelar</a>
+                <input type="submit" class="btn btn-link btn-xs pull-right" value="Guardar" />
+            </div>
+        </div>
+    }
+</div>
+

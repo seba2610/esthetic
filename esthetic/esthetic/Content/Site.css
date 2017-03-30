@@ -11,7 +11,7 @@ body {
     margin-bottom:30px;
 }
 
-h1,h2,h3,h4,label, dl, dt, dd, p, address, span, i{
+h1,h2,h3,h4,label, dl, dt, dd, p, address, span, i, input[type="file"]{
     font-family: 'Open Sans', sans-serif;
     color:white;
 }
@@ -308,6 +308,8 @@ position: relative;
     position: relative;
     transform: translate(0,-50%);
     margin:auto;
+    max-width: 120px;
+    max-height: 120px;
 }
 
 .thumbnail i{
@@ -355,12 +357,79 @@ position: relative;
     margin: 10px 0;
 }
 
+.feature-checkbox{
+    margin-bottom: 26px;
+}
+
 .zero-height{
     max-height: 0 !important;
     overflow:hidden;
     transition: max-height 0.5s;
     display:block;
 }
+
+.img-container{
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.categories-nav{
+    color: white;
+    margin: 20px 0;
+}
+
+.categories-nav ul {
+    list-style-type: none;
+    text-align:center;
+    font-size: 26px;
+    padding-left: 0;
+}
+
+.categories-nav ul li {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.categories-nav ul li a{
+    color: white;
+}
+
+.categories-nav ul li a:hover{
+    color: #eee;
+}
+
+.images-gallery{
+    column-count: 1;
+    column-gap: 0;
+    -webkit-column-count: 1;
+    -webkit-column-gap: 0;
+    -moz-column-count: 1;
+    -moz-column-gap: 0;
+    column-fill:balance;
+}
+
+.images-gallery figure{
+    line-height: 0;
+}
+
+.images-gallery img{
+    border: 2px solid black;
+    width: 100%;
+    position:relative;
+    display:block;
+    vertical-align: middle;
+}
+
+.parent-category-header{
+    text-align: center;
+}
+
+.grid-item { width: 200px; }
+.grid-item--width2 { width: 400px; }
 
 /* Mimic table appearance */
 div.table {
@@ -447,6 +516,12 @@ div.table .file-row:nth-child(odd) {
         padding-top:80px;
         margin-bottom:60px;
     }
+
+    .images-gallery{
+        column-count: 2;
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+    }
 }
 
 @media screen and (min-width:992px) {
@@ -465,6 +540,12 @@ div.table .file-row:nth-child(odd) {
         padding: 15px;
         font-size: 20px;
     }
+
+    .images-gallery{
+        column-count: 3;
+        -webkit-column-count: 3;
+        -moz-column-count: 3;
+    }
 }
 
 @media screen and (min-width:1200px) {
@@ -472,5 +553,11 @@ div.table .file-row:nth-child(odd) {
         margin: 20px 0;
         padding: 15px;
         font-size: 20px;
+    }
+
+    .images-gallery{
+        column-count: 4;
+        -webkit-column-count: 4;
+        -moz-column-count: 4;
     }
 }

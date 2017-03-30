@@ -42,7 +42,7 @@ namespace Esthetic
             }
         }
 
-        public Configuration GetConfiguration(string name)
+        public Configuration GetConfiguration(EnumConst.ConfigurationParam param)
         {
             Configuration result = null;
 
@@ -50,7 +50,7 @@ namespace Esthetic
             DataSet ds = null;
 
             parameters = new Dictionary<string, object>();
-            parameters.Add("@Name", name);
+            parameters.Add("@Name", param.ToString());
 
             ds = _dataAccess.ExecuteStoreProcedure("GetConfiguration", parameters);
 

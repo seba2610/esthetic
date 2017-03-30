@@ -7,7 +7,8 @@ namespace Esthetic.Models
 {
     public class ImagesModel
     {
-       public List<Category> Categories = new List<Category>();
-       public List<Image> Images = new List<Image>();
+        public List<Category> Categories = new List<Category>();
+        public List<Image> Images = new List<Image>();
+        public Category ParentCategory = null;
     }
 }

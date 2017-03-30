@@ -138,6 +138,10 @@ namespace Esthetic.Controllers
                             string absolute_thumb_file_name = string.Format(EnumConst.AbsoluteFileName, thumbnail_path, file_name);
                             thumbnail.Save(absolute_thumb_file_name);
                             thumbnail.Dispose();
+
+                            image.Height = bitmap.Height;
+                            image.Width = bitmap.Width;
+
                             bitmap.Dispose();
                         }
 
@@ -308,8 +312,70 @@ namespace Esthetic.Controllers
         {
             AdminModel model = new AdminModel();
             model.Features = FeatureCtrler.Instance.GetAllFeatures();
+            model.ActiveFeature = false;
 
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult AddFeature(AdminModel model)
+        {
+            string description = model.DescriptionFeature;
+            bool active = false;
+
+            if (model.ActiveFeature.HasValue)
+                active = model.ActiveFeature.Value;
+
+            string id = String.Empty, file_name = String.Empty;
+
+            foreach (string fileName in Request.Files)
+            {
+                HttpPostedFileBase file = Request.Files[fileName];
+
+                if (file != null && file.ContentLength > 0)
+                {
+                    string path = new DirectoryInfo(string.Format(EnumConst.FeaturesImagesPath, Server.MapPath("/"))).ToString();
+
+                    id = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+
+                    string absolute_file_name = string.Format(EnumConst.AbsoluteFileName, path, id);
+
+                    Bitmap bitmap = Utilities.IsImage(file);
+
+                    if (bitmap != null)
+                    {
+                        file.SaveAs(absolute_file_name);
+
+                        FeatureCtrler.Instance.CreateFeature(new Feature() { Id = id, Description = description, Active = active });
+                    }
+                }
+            }
+
+            AdminModel newModel = new AdminModel();
+            newModel.Features = FeatureCtrler.Instance.GetAllFeatures();
+            newModel.ActiveFeature = false;
+
+            return View("Features", newModel);
+        }
+
+        public ActionResult UpdateFeature(AdminModel model, string id)
+        {
+            string description = model.EditFeatureDescription;
+            bool active = model.EditFeatureActive;
+
+            AdminModel newModel = new AdminModel();
+            newModel.Feature = new Feature() { Id = id, Active = active, Description = description };
+
+            FeatureCtrler.Instance.UpdateFeature(newModel.Feature);
+
+            return PartialView("Feature", newModel);
+        }
+
+        public ActionResult DeleteFeature(string id)
+        {
+            FeatureCtrler.Instance.DeleteFeature(id);
+
+            return RedirectToAction("Features");
         }
     }
 }

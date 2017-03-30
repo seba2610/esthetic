@@ -54,6 +54,8 @@ namespace Esthetic
 
             parameters = new Dictionary<string, object>();
             parameters.Add("@Id", image.Id);
+            parameters.Add("@Width", image.Width);
+            parameters.Add("@Height", image.Height);
 
             if (!String.IsNullOrEmpty(image.Title))
                 parameters.Add("@Title", image.Title);
@@ -175,6 +177,8 @@ namespace Esthetic
 
             if (parent_id > -1)
                 parameters.Add("@ParentId", parent_id);
+            else
+                parameters.Add("@ParentId", DBNull.Value);
 
             ds = _dataAccess.ExecuteStoreProcedure("GetCategories", parameters);
 
@@ -370,6 +374,28 @@ namespace Esthetic
             if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 result = Convert.ToInt32(ds.Tables[0].Rows[0][0]);
+            }
+
+            return result;
+        }
+
+        public Category GetCategory(int id)
+        {
+            Category result = new Category();
+
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            DataSet ds = null;
+
+            parameters.Add("@Id", id);
+
+            ds = _dataAccess.ExecuteStoreProcedure("GetCategory", parameters);
+
+            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    result = new Category(dr);
+                }
             }
 
             return result;

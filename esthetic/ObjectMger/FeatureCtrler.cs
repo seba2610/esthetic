@@ -63,5 +63,80 @@ namespace Esthetic
 
             return result;
         }
+
+        public int CreateFeature(Feature feature)
+        {
+            int result = -1;
+
+            Dictionary<string, object> parameters = null;
+            DataSet ds = null;
+
+            parameters = new Dictionary<string, object>();
+
+            parameters.Add("@Id", feature.Id);
+            parameters.Add("@Active", feature.Active);
+
+            if (!String.IsNullOrEmpty(feature.Description))
+                parameters.Add("@Description", feature.Description);
+            else
+                parameters.Add("@Description", DBNull.Value);
+
+            ds = _dataAccess.ExecuteStoreProcedure("CreateFeature", parameters);
+
+            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                result = Convert.ToInt32(ds.Tables[0].Rows[0][0]);
+            }
+
+            return result;
+        }
+
+        public int UpdateFeature(Feature feature)
+        {
+            int result = -1;
+
+            Dictionary<string, object> parameters = null;
+            DataSet ds = null;
+
+            parameters = new Dictionary<string, object>();
+
+            parameters.Add("@Id", feature.Id);
+            parameters.Add("@Active", feature.Active);
+
+            if (!String.IsNullOrEmpty(feature.Description))
+                parameters.Add("@Description", feature.Description);
+            else
+                parameters.Add("@Description", DBNull.Value);
+
+            ds = _dataAccess.ExecuteStoreProcedure("UpdateFeature", parameters);
+
+            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                result = Convert.ToInt32(ds.Tables[0].Rows[0][0]);
+            }
+
+            return result;
+        }
+
+        public int DeleteFeature(string id)
+        {
+            int result = -1;
+
+            Dictionary<string, object> parameters = null;
+            DataSet ds = null;
+
+            parameters = new Dictionary<string, object>();
+
+            parameters.Add("@Id", id);
+
+            ds = _dataAccess.ExecuteStoreProcedure("DeleteFeature", parameters);
+
+            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                result = Convert.ToInt32(ds.Tables[0].Rows[0][0]);
+            }
+
+            return result;
+        }
     }
 }

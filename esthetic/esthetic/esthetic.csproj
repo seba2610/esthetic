@@ -247,7 +247,17 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\masonry.pkgd.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\photoswipe\default-skin\default-skin.css" />
+    <Content Include="Scripts\photoswipe\default-skin\default-skin.png" />
+    <Content Include="Scripts\photoswipe\default-skin\default-skin.svg" />
+    <Content Include="Scripts\photoswipe\default-skin\preloader.gif" />
+    <Content Include="Scripts\photoswipe\photoswipe-ui-default.js" />
+    <Content Include="Scripts\photoswipe\photoswipe-ui-default.min.js" />
+    <Content Include="Scripts\photoswipe\photoswipe.css" />
+    <Content Include="Scripts\photoswipe\photoswipe.js" />
+    <Content Include="Scripts\photoswipe\photoswipe.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
@@ -296,6 +306,7 @@
     <Content Include="Views\Admin\Service.cshtml" />
     <Content Include="Views\Admin\ServiceType.cshtml" />
     <Content Include="Views\Admin\Features.cshtml" />
+    <Content Include="Views\Admin\Feature.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

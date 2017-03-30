@@ -77,6 +77,15 @@ namespace Esthetic.Models
         public List<ServiceType> ServicesType = new List<ServiceType>();
         public List<Feature> Features = new List<Feature>();
 
+        [DisplayName("Activa")]
+        public bool? ActiveFeature { get; set; }
+
+        [DisplayName("Descripción")]
+        public string DescriptionFeature { get; set; }
+        public string EditFeatureDescription { get; set; }
+        public bool EditFeatureActive { get; set; }
+        public Feature Feature { get; set; }
+
         public AdminModel()
         {
             CategorySelected = -1;
