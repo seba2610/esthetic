@@ -1,109 +1,167 @@
 ﻿@model Esthetic.Models.ImagesModel
-    @if (Model.ParentCategory != null)
+    @if (Model.Category != null)
     {
-        <h1 class="parent-category-header">@Model.ParentCategory.Name</h1>
+        <h1 class="parent-category-header">@Model.Category.Name</h1>
     }
 
-    @if (Model.Categories.Count == 0 && Model.ParentCategory == null)
+    @if (Model.Categories.Count == 0 && Model.Category == null)
     {
         <p><i>No hay categorías creadas.</i></p>
     }
     else
     {
-        <div class="categories-nav row">
-            <ul>
-                @foreach (Esthetic.Category category in Model.Categories)
-                {
-                    <li>@Html.ActionLink(category.Name, "ImagesCategory", new { id = category.Id })</li>
-                }
-            </ul>
-        </div>
+        if (Model.Categories.Count > 0)
+        {
+            if (Model.Category == null)
+            {
+                <div class="categories-nav categories-root-nav row">
+                    <ul>
+                        @foreach (Esthetic.Category category in Model.Categories)
+                        {
+                            <li>@Html.ActionLink(category.Name, "ImagesCategory", new { id = category.Id })</li>
+                        }
+                    </ul>
+                </div>
+            }
+            else
+            {
+                <div class="categories-nav row">
+                    <ul>
+                        @foreach (Esthetic.Category category in Model.Categories)
+                        {
+                            <li>@Html.ActionLink(category.Name, "ImagesCategory", new { id = category.Id })</li>
+                        }
+                    </ul>
+                </div>
+            }
+        }
+
+        if (Model.Category != null)
+        {
+            <ol class="breadcrumb">
+            <li>@Html.ActionLink("Inicio", "Images")</li>
+
+            @if (Model.ParentCategory.Count > 0)
+            {
+                    int i = 0;
+
+                    while (i < Model.ParentCategory.Count)
+                    {
+                        <li>@Html.ActionLink(Model.ParentCategory[i].Name, "ImagesCategory", new { id = Model.ParentCategory[i].Id })</li>
+                        i++;
+                    }
+
+                    <li class="active">@Model.Category.Name</li>
+            }
+            </ol>
+        }
     }
 
-@if (Model.Images.Count == 0)
-{
-    <p><i>No se encuentran imágenes.</i></p>
-}
-else
-{
-    <div class="images-gallery" itemscope itemtype="http://schema.org/ImageGallery">
-        @foreach (Image image in Model.Images)
-        {
-            <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                <a href="@Url.Action("../images/", null, null, Request.Url.Scheme)@image.Id" itemprop="contentUrl" data-size="@image.Width.ToString() x @image.Height.ToString()">
-                    <img src="@Url.Action("../images/thumbnail/", null, null, Request.Url.Scheme)@image.Id" itemprop="thumbnail" alt="Image description" />
-                </a>
-
-                @if (!string.IsNullOrEmpty(image.Title))
+                @if (Model.Images.Count == 0)
                 {
-                    <figcaption itemprop="caption description"><strong>@image.Title </strong>- @image.Description</figcaption>
+                    <p class="img-not-found">No se han encontrado imágenes.</p>
                 }
-            </figure>
-        }
-    </div>
-}
-
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-    <!-- Background of PhotoSwipe.
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
-
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
-
-        <!-- Container that holds slides.
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-
-            <div class="pswp__top-bar">
-
-                <!--  Controls are self-explanatory. Order can be changed. -->
-
-                <div class="pswp__counter"></div>
-
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                        <div class="pswp__preloader__cut">
-                            <div class="pswp__preloader__donut"></div>
-                        </div>
+                else
+                {
+                    <div class="images-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+                        @foreach (Image image in Model.Images)
+                        {
+                            <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                                <a class="gallery-item" href="@Url.Action("../images/", null, null, Request.Url.Scheme)@image.Id" itemprop="contentUrl" data-size="@image.Width.ToString() x @image.Height.ToString()">
+                                    <img src="@Url.Action("../images/thumbnail/", null, null, Request.Url.Scheme)@image.Id" itemprop="thumbnail" alt="Image description" />
+                                
+                                @if ((!string.IsNullOrEmpty(image.Title)) || (!string.IsNullOrEmpty(image.Description)))
+                                {
+                                    <div class="img-gallery-item-desc">
+                                        @if (!string.IsNullOrEmpty(image.Title))
+                                        {
+                                            <p><strong>@image.Title </strong></p>
+                                        }
+                                        @if (!string.IsNullOrEmpty(image.Description))
+                                        {
+                                            <p>@image.Description</p>
+                                        }
+                                    </div>
+                                }
+                                </a>
+                                @if ((!string.IsNullOrEmpty(image.Title)) && (!string.IsNullOrEmpty(image.Description)))
+                                {
+                                    <figcaption itemprop="caption description">@image.Title - @image.Description</figcaption>
+                                }
+                                else if (!string.IsNullOrEmpty(image.Title))
+                                {
+                                    <figcaption itemprop="caption description">@image.Title</figcaption>
+                                }
+                                else if (!string.IsNullOrEmpty(image.Description))
+                                {
+                                <figcaption itemprop="caption description">@image.Description</figcaption>
+                                }
+                            </figure>
+                        }
                     </div>
+                        }
+
+                <!-- Root element of PhotoSwipe. Must have class pswp. -->
+                <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+                    <!-- Background of PhotoSwipe.
+                         It's a separate element as animating opacity is faster than rgba(). -->
+                    <div class="pswp__bg"></div>
+
+                    <!-- Slides wrapper with overflow:hidden. -->
+                    <div class="pswp__scroll-wrap">
+
+                        <!-- Container that holds slides.
+                            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+                            Don't modify these 3 pswp__item elements, data is added later on. -->
+                        <div class="pswp__container">
+                            <div class="pswp__item"></div>
+                            <div class="pswp__item"></div>
+                            <div class="pswp__item"></div>
+                        </div>
+
+                        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+                        <div class="pswp__ui pswp__ui--hidden">
+
+                            <div class="pswp__top-bar">
+
+                                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                                <div class="pswp__counter"></div>
+
+                                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                                <!-- element will get class pswp__preloader--active when preloader is running -->
+                                <div class="pswp__preloader">
+                                    <div class="pswp__preloader__icn">
+                                        <div class="pswp__preloader__cut">
+                                            <div class="pswp__preloader__donut"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                                <div class="pswp__share-tooltip"></div>
+                            </div>
+
+                            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+
+                            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+
+                            <div class="pswp__caption">
+                                <div class="pswp__caption__center"></div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
                 </div>
-            </div>
-
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div>
-            </div>
-
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
-
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
-
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-
-        </div>
-
-    </div>
-
-</div>

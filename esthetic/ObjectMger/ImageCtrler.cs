@@ -193,6 +193,26 @@ namespace Esthetic
             return result;
         }
 
+        public List<Category> GetRootCategories()
+        {
+            List<Category> result = new List<Category>();
+
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            DataSet ds = null;
+
+            ds = _dataAccess.ExecuteStoreProcedure("GetRootCategories", parameters);
+
+            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    result.Add(new Category(dr));
+                }
+            }
+
+            return result;
+        }
+
         public List<Category> GetCategoriesFromImage(string imageId)
         {
             List<Category> result = new List<Category>();

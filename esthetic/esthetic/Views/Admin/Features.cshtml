@@ -4,7 +4,7 @@
         @Html.ActionLink("Categorías", "Categories")
     </li>
     <li role="presentation">
-        @Html.ActionLink("Fotografías", "Images")
+        @Html.ActionLink("Fotos", "Images")
     </li>
     <li role="presentation">
         @Html.ActionLink("Servicios", "Services")
@@ -58,7 +58,7 @@
                     <input type="file" id="feature-image" name="feature-image" class="form-control">
                     <div class="checkbox">
                         <label>
-                            @Html.CheckBoxFor(model => model.ActiveFeature.Value)
+                            @Html.EditorFor(model => model.ActiveFeature)
                             @Html.DisplayNameFor(model => model.ActiveFeature)
                         </label>
                     </div>

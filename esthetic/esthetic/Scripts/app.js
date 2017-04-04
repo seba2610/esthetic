@@ -331,6 +331,17 @@ $(document).ready(function () {
     if ($(".images-gallery").exists()) {
         initPhotoSwipeFromDOM('.images-gallery');
     }
+
+    if ($(".slider-for").exists()) {
+        $('.slider-for').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: true,
+            fade: true,
+            dots: true,
+            adaptiveHeight: true
+        });
+    }
 });
 
 function setThumbnailButtons() {

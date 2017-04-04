@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -12,14 +13,26 @@ namespace Esthetic.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            HomeModel model = new HomeModel();
+
+            string file_name = EnumConst.CoverImageName;
+
+            string path = new DirectoryInfo(string.Format(EnumConst.ImagesPath, Server.MapPath("/"))).ToString();
+
+            model.CoverMainText = ConfigurationCtrler.Instance.GetConfiguration(ConfigurationParam.CoverMainText).Value;
+            model.CoverDescriptionText = ConfigurationCtrler.Instance.GetConfiguration(ConfigurationParam.CoverDescriptionText).Value;
+            model.CoverImagePath = string.Format(EnumConst.AbsoluteFileName, path, file_name);
+            model.GalleryCount = Int32.Parse(ConfigurationCtrler.Instance.GetConfiguration(ConfigurationParam.GalleryCount).Value);
+            model.ShowCoverGallery = bool.Parse(ConfigurationCtrler.Instance.GetConfiguration(ConfigurationParam.ShowCoverGallery).Value);
+
+            return View(model);
         }
 
         public ActionResult Images()
         {
             ViewBag.Message = "Fotos";
             ImagesModel model = new ImagesModel();
-            model.Categories = ImageCtrler.Instance.GetCategories();
+            model.Categories = ImageCtrler.Instance.GetRootCategories();
             Configuration count = ConfigurationCtrler.Instance.GetConfiguration(ConfigurationParam.InitImagesGalleryCount);
             int galleryCount = int.Parse(count.Value);
             int random = -1;
@@ -57,7 +70,19 @@ namespace Esthetic.Controllers
             int galleryCount = int.Parse(count.Value);
             int random = -1;
             List<Image> images = new List<Image>();
-            model.ParentCategory = ImageCtrler.Instance.GetCategory(id);
+            model.Category = ImageCtrler.Instance.GetCategory(id);
+            Category parentIter = model.Category.Parent;
+            Category categoryIter = model.Category;
+
+            List<int> parentIds = new List<int>();
+
+            while (parentIter != null && model.ParentCategory.FindIndex(c => c.Id == parentIter.Id) == -1)
+            {
+                categoryIter.Parent = parentIter;
+                categoryIter = parentIter;
+                model.ParentCategory.Insert(0, parentIter);
+                parentIter = ImageCtrler.Instance.GetCategory(parentIter.Id).Parent;
+            }
 
             foreach (Category category in model.Categories)
             {
@@ -98,9 +123,13 @@ namespace Esthetic.Controllers
         }
         public ActionResult Services()
         {
+            ServicesModel model = new ServicesModel();
+            model.Services = ServiceCtrler.Instance.GetAllServices();
+            model.ServiceTypes = ServiceCtrler.Instance.GetAllServicesType();
+
             ViewBag.Message = "Servicios";
 
-            return View();
+            return View(model);
         }
 
         public ActionResult Contact()
@@ -112,9 +141,11 @@ namespace Esthetic.Controllers
 
         public ActionResult Features()
         {
-            ViewBag.Message = "Promociones";
+            List<Feature> features = new List<Feature>();
 
-            return View();
+            features = FeatureCtrler.Instance.GetAllFeatures().Where(f => f.Active).ToList();
+
+            return View(features);
         }
     }
 }

@@ -12,7 +12,19 @@ namespace Esthetic
 
         public enum PropertyType { Int, String, Bool, RentSaleEnum, CurrencyEnum, Unkown }
 
-        public enum ConfigurationParam { InitImagesGalleryCount }
+        public enum ConfigurationParam {
+                                            InitImagesGalleryCount,
+                                            ShowCoverGallery,
+                                            CoverMainText,
+                                            CoverDescriptionText,
+                                            FacebookFanpage,
+                                            FacebookFanpageAlternative,
+                                            InstagramUser,
+                                            InstagramUserAlternative,
+                                            TweeterUser,
+                                            TweeterAlternativeUser,
+                                            GalleryCount
+                                        }
 
         public const string ImagesPath = @"{0}/images/";
 
@@ -29,5 +41,7 @@ namespace Esthetic
         public const int ImageDefaultWidth = 400;
 
         public const int ImageDefaultHeight = 400;
+
+        public const string CoverImageName = "cover.jpg";
     }
 }

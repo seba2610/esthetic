@@ -61,5 +61,26 @@ namespace Esthetic
 
             return result;
         }
+
+        public int SaveValueConfiguration(EnumConst.ConfigurationParam param, string value)
+        {
+            int result = -1;
+
+            Dictionary<string, object> parameters = null;
+            DataSet ds = null;
+
+            parameters = new Dictionary<string, object>();
+            parameters.Add("@Name", param.ToString());
+            parameters.Add("@Value", value);
+
+            ds = _dataAccess.ExecuteStoreProcedure("SaveValueConfiguration", parameters);
+
+            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                result = Convert.ToInt32(ds.Tables[0].Rows[0][0]);
+            }
+
+            return result;
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace Esthetic
                       "~/Scripts/dropzone/dropzone.min.js",
                       "~/Scripts/photoswipe/photoswipe.min.js",
                       "~/Scripts/photoswipe/photoswipe-ui-default.min.js",
-                      //"~/Scripts/masonry.pkgd.min.js",
+                      "~/Scripts/slick/slick.min.js",
                       "~/Scripts/app.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -39,6 +39,9 @@ namespace Esthetic
                       "~/Scripts/dropzone/dropzone.min.css",
                       "~/Scripts/photoswipe/photoswipe.css",
                       "~/Scripts/photoswipe/default-skin/default-skin.css",
+                      "~/Scripts/photoswipe/photoswipe.css",
+                      "~/Scripts/slick/slick.css",
+                      "~/Scripts/slick/slick-theme.css",
                       "~/Content/site.css"));
         }
     }

@@ -1,11 +1,18 @@
-﻿<div class="jumbotron" id="jumbotron-features">
-    <div>
-        <div class="feature-item" style="background-image:url(../../Images/features/promo1.jpg);"></div>
-    </div>
-    <div>
-        <div class="feature-item" style="background-image:url(../../Images/features/promo2.jpg);"></div>
-    </div>
-    <div>
-        <div class="feature-item" style="background-image:url(../../Images/features/promo3.jpg);"></div>
-    </div>
+﻿@model List<Feature>
+
+<div class="slider-for">
+    @foreach (Feature feature in Model)
+    {
+        <div>
+            <div>
+                <div class="feature-item" style="background-image:url('@Url.Action("../images/features/", null, null, Request.Url.Scheme)@feature.Id')"></div>
+            </div>
+            @if (!String.IsNullOrEmpty(feature.Description))
+            {
+                <p>
+                    @feature.Description
+                </p>
+            }
+        </div>
+    }
 </div>

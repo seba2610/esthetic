@@ -1,6 +1,8 @@
-﻿<section>
-    <div class="jumbotron" id="main-jumbotron">
-        <h1>Intercoiffeur</h1>
-        <h3>Somos profesionales en los servicios que ofrecemos como peluquería, belleza, maquillaje y más.</h3>
+﻿@model Esthetic.Models.HomeModel
+
+<section>
+    <div class="jumbotron" id="main-jumbotron" style="background-image:url('@Url.Action("../images/", null, null, Request.Url.Scheme)@EnumConst.CoverImageName')">
+        <h1>@Model.CoverMainText</h1>
+        <h3>@Model.CoverDescriptionText</h3>
     </div>
 </section>

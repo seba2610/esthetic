@@ -377,5 +377,60 @@ namespace Esthetic.Controllers
 
             return RedirectToAction("Features");
         }
+
+        public ActionResult Options()
+        {
+            ConfigurationModel model = new ConfigurationModel();
+            model.CoverMainText = ConfigurationCtrler.Instance.GetConfiguration(EnumConst.ConfigurationParam.CoverMainText).Value;
+            model.CoverDescriptionText = ConfigurationCtrler.Instance.GetConfiguration(EnumConst.ConfigurationParam.CoverDescriptionText).Value;
+            model.ShowCoverGallery = bool.Parse(ConfigurationCtrler.Instance.GetConfiguration(EnumConst.ConfigurationParam.ShowCoverGallery).Value);
+            model.GalleryCount = Int32.Parse(ConfigurationCtrler.Instance.GetConfiguration(EnumConst.ConfigurationParam.GalleryCount).Value);
+            model.FacebookFanpage = ConfigurationCtrler.Instance.GetConfiguration(EnumConst.ConfigurationParam.FacebookFanpage).Value;
+            model.FacebookFanpageAlternative = ConfigurationCtrler.Instance.GetConfiguration(EnumConst.ConfigurationParam.FacebookFanpageAlternative).Value;
+            model.InstagramUser = ConfigurationCtrler.Instance.GetConfiguration(EnumConst.ConfigurationParam.InstagramUser).Value;
+            model.InstagramUserAlternative = ConfigurationCtrler.Instance.GetConfiguration(EnumConst.ConfigurationParam.InstagramUserAlternative).Value;
+            model.TweeterUser = ConfigurationCtrler.Instance.GetConfiguration(EnumConst.ConfigurationParam.TweeterUser).Value;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateOptions(ConfigurationModel model)
+        {
+            ConfigurationCtrler.Instance.SaveValueConfiguration(EnumConst.ConfigurationParam.CoverMainText, model.CoverMainText == null ? string.Empty: model.CoverMainText);
+            ConfigurationCtrler.Instance.SaveValueConfiguration(EnumConst.ConfigurationParam.CoverDescriptionText, model.CoverDescriptionText == null ? string.Empty : model.CoverDescriptionText);
+            ConfigurationCtrler.Instance.SaveValueConfiguration(EnumConst.ConfigurationParam.ShowCoverGallery, model.ShowCoverGallery.ToString());
+            ConfigurationCtrler.Instance.SaveValueConfiguration(EnumConst.ConfigurationParam.GalleryCount, model.GalleryCount.ToString());
+            ConfigurationCtrler.Instance.SaveValueConfiguration(EnumConst.ConfigurationParam.FacebookFanpage, model.FacebookFanpage == null ? string.Empty : model.FacebookFanpage);
+            ConfigurationCtrler.Instance.SaveValueConfiguration(EnumConst.ConfigurationParam.FacebookFanpageAlternative, model.FacebookFanpageAlternative == null ? string.Empty : model.FacebookFanpageAlternative);
+            ConfigurationCtrler.Instance.SaveValueConfiguration(EnumConst.ConfigurationParam.InstagramUser, model.InstagramUser == null ? string.Empty : model.InstagramUser);
+            ConfigurationCtrler.Instance.SaveValueConfiguration(EnumConst.ConfigurationParam.InstagramUserAlternative, model.InstagramUserAlternative == null ? string.Empty : model.InstagramUserAlternative);
+            ConfigurationCtrler.Instance.SaveValueConfiguration(EnumConst.ConfigurationParam.TweeterUser, model.TweeterUser == null ? string.Empty : model.TweeterUser);
+
+            foreach (string fileName in Request.Files)
+            {
+                HttpPostedFileBase file = Request.Files[fileName];
+
+                if (file != null && file.ContentLength > 0)
+                {
+                    Image image = new Image(Guid.NewGuid().ToString() + Path.GetExtension(file.FileName));
+
+                    string file_name = EnumConst.CoverImageName;
+
+                    string path = new DirectoryInfo(string.Format(EnumConst.ImagesPath, Server.MapPath("/"))).ToString();
+
+                    string absolute_file_name = string.Format(EnumConst.AbsoluteFileName, path, file_name);
+
+                    Bitmap bitmap = Utilities.IsImage(file);
+
+                    if (bitmap != null)
+                    {
+                        file.SaveAs(absolute_file_name);
+                    }
+                }
+            }
+
+            return View("Options", model);
+        }
     }
 }
