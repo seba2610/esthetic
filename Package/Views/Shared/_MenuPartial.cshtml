@@ -1,0 +1,23 @@
+﻿<div class="navbar navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="@Url.Action("Index", "Home")" class="navbar-header">
+                <img src="@Url.Content("~/Images/brand/header.png")"/>
+            </a>
+            
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="main-nav-item" id="main-nav-item-1">@Html.ActionLink("FOTOS", "Images", "Home", null, null)</li>
+                <li class="main-nav-item" id="main-nav-item-2">@Html.ActionLink("SERVICIOS", "Services", "Home", null, null)</li>
+                <li class="main-nav-item" id="main-nav-item-3">@Html.ActionLink("CONTACTO", "Contact", "Home", null, null)</li>
+                <li class="main-nav-item" id="main-nav-item-4">@Html.ActionLink("PROMOCIONES", "Features", "Home", null, new { @class = "highlighted" })</li>
+            </ul>
+        </div>
+    </div>
+</div>

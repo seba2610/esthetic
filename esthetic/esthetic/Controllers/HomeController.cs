@@ -22,9 +22,42 @@ namespace Esthetic.Controllers
             model.CoverMainText = ConfigurationCtrler.Instance.GetConfiguration(ConfigurationParam.CoverMainText).Value;
             model.CoverDescriptionText = ConfigurationCtrler.Instance.GetConfiguration(ConfigurationParam.CoverDescriptionText).Value;
             model.CoverImagePath = string.Format(EnumConst.AbsoluteFileName, path, file_name);
-            model.GalleryCount = Int32.Parse(ConfigurationCtrler.Instance.GetConfiguration(ConfigurationParam.GalleryCount).Value);
             model.ShowCoverGallery = bool.Parse(ConfigurationCtrler.Instance.GetConfiguration(ConfigurationParam.ShowCoverGallery).Value);
+            model.FacebookFanpage = ConfigurationCtrler.Instance.GetConfiguration(EnumConst.ConfigurationParam.FacebookFanpage).Value;
+            model.FacebookFanpageAlternative = ConfigurationCtrler.Instance.GetConfiguration(EnumConst.ConfigurationParam.FacebookFanpageAlternative).Value;
+            model.InstagramUser = ConfigurationCtrler.Instance.GetConfiguration(EnumConst.ConfigurationParam.InstagramUser).Value;
+            model.InstagramUserAlternative = ConfigurationCtrler.Instance.GetConfiguration(EnumConst.ConfigurationParam.InstagramUserAlternative).Value;
 
+            if (model.ShowCoverGallery)
+            {
+                model.Images = new List<Image>();
+
+                model.GalleryCount = Int32.Parse(ConfigurationCtrler.Instance.GetConfiguration(ConfigurationParam.GalleryCount).Value);
+
+                int random = -1;
+
+                List<Image> images = ImageCtrler.Instance.GetAllImages();
+                if (images.Count > model.GalleryCount)
+                {
+                    Random rnd = new Random();
+                    List<int> numbers = new List<int>();
+
+                    for (int i = 0; i < model.GalleryCount; i++)
+                    {
+                        random = rnd.Next(0, images.Count);
+
+                        while (numbers.Contains(random))
+                            random = rnd.Next(0, images.Count);
+
+                        numbers.Add(random);
+                        model.Images.Add(images.ElementAt(random));
+                    }
+                }
+                else
+                {
+                    model.Images = images;
+                }
+            }
             return View(model);
         }
 
@@ -146,6 +179,13 @@ namespace Esthetic.Controllers
             features = FeatureCtrler.Instance.GetAllFeatures().Where(f => f.Active).ToList();
 
             return View(features);
+        }
+
+        public ActionResult ImageShare(string id)
+        {
+            Image image = ImageCtrler.Instance.GetImage(id);
+
+            return View(image);
         }
     }
 }

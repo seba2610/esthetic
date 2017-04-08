@@ -1,0 +1,168 @@
+﻿@model Esthetic.Models.AdminModel
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation">
+        @Html.ActionLink("Categorías", "Categories")
+    </li>
+    <li role="presentation" class="active">
+        @Html.ActionLink("Fotos", "Images")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Servicios", "Services")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Promociones", "Features")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Opciones", "Options")
+    </li>
+</ul>
+
+@foreach(Category category in Model.Categories)
+{
+    <div class="images-category">
+        <h4 class="toggle-images-category">@category.Name (@Model.Images.Where(i => i.Categories.FindIndex(c => c.Id == category.Id) > -1).Count())
+            <span  class="btn btn-link glyphicon glyphicon-menu-up"></span>
+            <span class="btn btn-link pull-right delete-images-from-category" data-image-id="@category.Id">Quitar todas</span>
+            <span class="btn btn-link add-image-btn pull-right" style="margin-right:20px;" data-category-id="@category.Id">Agregar</span>
+        </h4>
+        @if (@Model.Images.Where(i => i.Categories.FindIndex(c => c.Id == category.Id) > -1).Count() == 0)
+        {
+            <span class="zero-height"><i>No hay fotografías en esta categoría.</i></span>
+        }
+        else
+        {
+            <div class="row zero-height data-category" data-category-id="@category.Id">
+                @foreach (Image image in @Model.Images.Where(i => i.Categories.FindIndex(c => c.Id == category.Id) > -1))
+                {
+                    Model.Image = image;
+                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                        @Html.Partial("Image", Model)
+                    </div>
+                }
+            </div>
+        }
+    </div>
+}
+
+<div class="modal fade" id="add-images-category-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Agregar fotografías</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="categoryId" />
+                <div id="actions" class="row">
+                    <div>
+                        <!-- The fileinput-button span is used to style the file input field as button -->
+                        <span class="btn btn-success fileinput-button">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            <span>Agregar archivos...</span>
+                        </span>
+                        <button type="submit" class="btn btn-primary start" style="display:none;">
+                            <i class="glyphicon glyphicon-upload"></i>
+                            <span>Comenzar subida</span>
+                        </button>
+                        <button type="reset" class="btn btn-link cancel" style="display:none;">
+                            Quitar todos
+                        </button>
+                    </div>
+                </div>
+                <div class="table table-striped files" id="previews">
+                    <div id="template" class="file-row row">
+                        <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                            <span class="preview"><img data-dz-thumbnail /></span>
+                        </div>
+                        <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                            <p class="name dz-center-cell" data-dz-name></p>
+                            <strong class="error text-danger" data-dz-errormessage></strong>
+                        </div>
+                        <div class="hidden-xs col-sm-3 col-md-3 col-lg-3">
+                            <p class="size" data-dz-size></p>
+                            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                            <button data-dz-remove class="btn btn-link cancel">
+                                Quitar
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span id="delete-category-modal-link" data-dismiss="modal" class="btn btn-link">Cerrar</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="all-images-category-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Eliminar fotografías</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Seguro que desea eliminar todas las fotografías de esta categoría?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Cancelar</button>
+                <input type="hidden" id="all-images-category-link-input" value="@Url.Action("DeleteImagesFromCategory")" />
+                <a id="all-images-category-link" class="btn btn-danger" href="/">Eliminar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-image-category-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Quitar fotografía</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Seguro que desea quitar la fotografía de esta categoría?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Cancelar</button>
+                <input type="hidden" id="delete-image-category-link-input" value="@Url.Action("RemoveImageFromCategory")" />
+                <a id="delete-image-category-link" class="btn btn-danger" href="/">Quitar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="add-category-image-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            @using (Html.BeginForm("AddImageToCategory", "Admin", FormMethod.Post))
+            {
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Agregar a categorías</h4>
+                    </div>
+                    <div class="modal-body">
+                        @foreach (Category category in Model.Categories)
+                        {
+                            <div class="checkbox">
+                                <label>
+                                    <input class="category-checkbox" type="checkbox" name="CategoriesSelected" id="checkbox_@category.Id" value="@category.Id" />@category.Name
+                                </label>
+                            </div>
+                            }
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Cerrar</button>
+                        <input type="hidden" id="add-image-to-category-id" name="imageId" value="" />
+                        <input type="submit" id="add-image-category-link" class="btn btn-success" style="display:none;" href="/" value="Agregar">
+                    </div>
+                </div>
+            }
+        </div>
+</div>

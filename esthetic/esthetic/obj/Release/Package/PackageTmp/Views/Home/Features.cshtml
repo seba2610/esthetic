@@ -1,0 +1,18 @@
+﻿@model List<Feature>
+
+<div class="slider-for">
+    @foreach (Feature feature in Model)
+    {
+        <div>
+            <div>
+                <div class="feature-item" style="background-image:url('@Url.Action("../images/features/", null, null, Request.Url.Scheme)@feature.Id')"></div>
+            </div>
+            @if (!String.IsNullOrEmpty(feature.Description))
+            {
+                <p>
+                    @feature.Description
+                </p>
+            }
+        </div>
+    }
+</div>

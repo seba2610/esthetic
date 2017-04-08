@@ -1,0 +1,18 @@
+﻿@model Image
+
+@section ShareMetaData
+{
+    <meta property="og:url" content="@Url.Action("ImageShare", "Home", new { id = Model.Id })" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="@Model.Title" />
+    <meta property="og:description" content="@Model.Description" />
+    <meta property="og:image" content="@Url.Action("../images/thumbnail/", null, null, Request.Url.Scheme)@Model.Id" />
+}
+
+<div class="container">
+    <div class="image-share-wrapper">
+        <img src="@Url.Action("../images/", null, null, Request.Url.Scheme)@Model.Id" alt="@Model.Description" style="width: 100%;" />
+        <h3>@Model.Title</h3>
+        <h5>@Model.Description</h5>
+    </div>
+</div>

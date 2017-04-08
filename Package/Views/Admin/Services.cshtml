@@ -1,0 +1,194 @@
+﻿@model Esthetic.Models.AdminModel
+
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation">
+        @Html.ActionLink("Categorías", "Categories")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Fotos", "Images")
+    </li>
+    <li role="presentation" class="active">
+        @Html.ActionLink("Servicios", "Services")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Promociones", "Features")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Opciones", "Options")
+    </li>
+</ul>
+
+<div class="row">
+    <div class="col-md-6 col-lg-6">
+        <h4>Tipos de servicio</h4>
+        <hr />
+        @if (Model.ServicesType.Count == 0)
+        {
+            <span><i>No hay tipo de servicios creados.</i></span>
+        }
+        else
+        {
+            foreach (Esthetic.ServiceType serviceType in Model.ServicesType)
+            {
+                Model.ServiceType = serviceType;
+                @Html.Partial("ServiceType", Model)
+            }
+        }
+
+        <div>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#new-service-type-modal">
+                + Crear nuevo
+            </button>
+        </div>
+
+    </div>
+    <div class="col-md-6 col-lg-6">
+    <h4>Servicios</h4>
+    <hr />
+    @if (Model.Services.Count == 0)
+    {
+        <span><i>No hay servicios creados.</i></span>
+    }
+    else
+    {
+        foreach (Esthetic.Service service in Model.Services)
+        {
+            Model.Service = service;
+            @Html.Partial("Service", Model)
+        }
+    }
+
+        @if (Model.ServicesType.Count == 0)
+        {
+            <span><i>Debe haber al menos un tipo de servicio para poder crear un servicio.</i></span>
+        }
+        else
+        {
+            <div>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#new-service-modal">
+                    + Crear nuevo
+                </button>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="modal fade" id="new-service-type-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Crear nuevo tipo de servicio</h4>
+            </div>
+            @using (Html.BeginForm("CreateServiceType", "Admin", FormMethod.Post))
+            {
+                <div class="modal-body">
+                    @Html.LabelFor(model => Model.NewServiceName)
+                    @Html.EditorFor(model => Model.NewServiceName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(Model => Model.NewServiceName)
+
+                    @Html.LabelFor(model => Model.NewServiceDescription)
+                    @Html.TextAreaFor(model => Model.NewServiceDescription, new { @class = "form-control" })
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Cancelar</button>
+                    <input type="submit" class="btn btn-success" value="Crear" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="new-service-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Crear nuevo servicio</h4>
+            </div>
+            @using (Html.BeginForm("CreateService", "Admin", FormMethod.Post))
+            {
+                <div class="modal-body">
+
+                        @Html.LabelFor(model => Model.NewServiceName)
+                        @Html.EditorFor(model => Model.NewServiceName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(Model => Model.NewServiceName)
+
+                        @Html.LabelFor(model => Model.NewServiceCost)
+                        @Html.EditorFor(model => Model.NewServiceCost, new { htmlAttributes = new { @class = "form-control" } })
+
+                        @Html.LabelFor(model => Model.NewServiceDescription)
+                        @Html.TextAreaFor(model => Model.NewServiceDescription, new { @class = "form-control" })
+
+                        @Html.LabelFor(model => Model.ServiceTypeSelected)
+                        @Html.DropDownListFor(model => model.ServiceTypeSelected, new SelectList(Model.ServicesType, "Id", "Name"), new { @class = "form-control" })
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Cancelar</button>
+                    <input type="submit" class="btn btn-success" value="Crear"/>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-category-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Eliminar categoría</h4>
+            </div>
+            <div class="modal-body">
+                <p><strong>Las fotografías que se encuentren solo en esta categoría también serán eliminadas.</strong></p>
+                <p>¿Seguro que desea eliminar la categoría?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Cancelar</button>
+                <input type="hidden" id="delete-category-modal-input" value="@Url.Action("DeleteCategory")" />
+                <a id="delete-category-modal-link" class="btn btn-danger" href="/">Eliminar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-service-type-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Eliminar tipo de servicio</h4>
+            </div>
+            <div class="modal-body">
+                <p><strong>Al eliminar este tipo de servicio, se eliminarán también los servicios que pertenezcan a este tipo.</strong></p>
+                <p>¿Seguro que desea eliminar el tipo de servicio?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Cancelar</button>
+                <input type="hidden" id="delete-service-type-modal-input" value="@Url.Action("DeleteServiceType")" />
+                <a id="delete-service-type-modal-link" class="btn btn-danger" href="/">Eliminar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-service-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Eliminar servicio</h4>
+            </div>
+            <div class="modal-body">
+                <p><strong>Al eliminar este tipo de servicio, se eliminarán también los servicios que pertenezcan a este tipo.</strong></p>
+                <p>¿Seguro que desea eliminar el tipo de servicio?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Cancelar</button>
+                <input type="hidden" id="delete-service-modal-input" value="@Url.Action("DeleteService")" />
+                <a id="delete-service-modal-link" class="btn btn-danger" href="/">Eliminar</a>
+            </div>
+        </div>
+    </div>
+</div>

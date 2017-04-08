@@ -29,7 +29,7 @@ namespace Esthetic
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
                       "~/Scripts/dropzone/dropzone.min.js",
                       "~/Scripts/photoswipe/photoswipe.min.js",
-                      "~/Scripts/photoswipe/photoswipe-ui-default.min.js",
+                      "~/Scripts/photoswipe/photoswipe-ui-default.js",
                       "~/Scripts/slick/slick.min.js",
                       "~/Scripts/app.js"));
 

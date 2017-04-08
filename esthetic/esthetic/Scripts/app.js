@@ -256,7 +256,27 @@ function setAddImagesToCategoryDropzone() {
     };
 }
 
+function setActiveNavigationItem() {
+    var url = window.location.href;
+
+    $("main-nav-item").each(function () {
+        $(this).removeClass("active");
+    });
+
+    if (url.indexOf("Home/Images") > -1) {
+        $("#main-nav-item-1").addClass("active");
+    } else if (url.indexOf("Home/Services") > -1) {
+        $("#main-nav-item-2").addClass("active");
+    } else if (url.indexOf("Home/Contact") > -1) {
+        $("#main-nav-item-3").addClass("active");
+    } else if (url.indexOf("Home/Features") > -1) {
+        $("#main-nav-item-4").addClass("active");
+    }
+}
+
 $(document).ready(function () {
+
+    setActiveNavigationItem();
 
     setCategoryButtons();
 

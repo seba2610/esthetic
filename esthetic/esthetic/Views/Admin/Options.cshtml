@@ -1,4 +1,21 @@
 ﻿@model Esthetic.Models.ConfigurationModel
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation">
+        @Html.ActionLink("Categorías", "Categories")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Fotos", "Images")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Servicios", "Services")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Promociones", "Features")
+    </li>
+    <li role="presentation" class="active">
+        @Html.ActionLink("Opciones", "Options")
+    </li>
+</ul>
 
 @using (Html.BeginForm("UpdateOptions", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -22,7 +39,7 @@
             <div class="form-group">
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" value="">@Html.DisplayNameFor(m => m.ShowCoverGallery)
+                        @Html.CheckBox("ShowCoverGallery") @Html.DisplayNameFor(m => m.ShowCoverGallery)
                     </label>
                 </div>
             </div>
@@ -61,7 +78,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div style="margin-bottom: 10px;">
         <button type="submit" class="btn btn-success pull-left">Guardar cambios</button>
     </div>
 }

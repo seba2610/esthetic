@@ -77,6 +77,28 @@ namespace Esthetic
             return result;
         }
 
+        public Image GetImage(string id)
+        {
+            Image result = new Image();
+
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            DataSet ds = null;
+
+            parameters.Add("@Id", id);
+
+            ds = _dataAccess.ExecuteStoreProcedure("GetImage", parameters);
+
+            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    result = new Image(dr);
+                }
+            }
+
+            return result;
+        }
+
         public int AddImageToCategory(string image_id, int category_id)
         {
             int result = -1;

@@ -1,0 +1,28 @@
+﻿@model Esthetic.Models.ServicesModel
+
+@foreach (ServiceType serviceType in Model.ServiceTypes)
+{
+    <h3>@serviceType.Name</h3>
+    if (!String.IsNullOrEmpty(serviceType.Description))
+    {
+        <h5>@serviceType.Description</h5>
+    }
+    <hr />
+
+    if (Model.Services.Where(s => s.ServiceTypeId == serviceType.Id).Count() > 0)
+    {
+        <ul class="services">
+            @foreach (Service service in Model.Services.Where(s => s.ServiceTypeId == serviceType.Id))
+            {
+                <li>
+                    <strong>@service.Name</strong><br />
+                    @service.Description
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No hay servicios especificados.</p>
+    }
+}

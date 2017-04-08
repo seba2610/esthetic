@@ -1,0 +1,94 @@
+﻿@model Esthetic.Models.AdminModel
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation">
+        @Html.ActionLink("Categorías", "Categories")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Fotos", "Images")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Servicios", "Services")
+    </li>
+    <li role="presentation" class="active">
+        @Html.ActionLink("Promociones", "Features")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Opciones", "Options")
+    </li>
+</ul>
+
+<div class="row">
+    @if (Model.Features.Count == 0)
+    {
+        <span><i>No hay promociones creadas.</i></span>
+    }
+    else
+    {
+        foreach (Esthetic.Feature feature in Model.Features)
+        {
+            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                @{
+                    Model.Feature = feature;
+                    @Html.Partial("Feature", Model);
+                }
+            </div>
+        }
+    }
+</div>
+
+<div class="row">
+    <div style="padding:15px;">
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#new-feature-modal">
+            + Crear nueva
+        </button>
+    </div>
+</div>
+
+<div class="modal fade" id="new-feature-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        @using (Html.BeginForm("AddFeature", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Agregar promoción</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="feature-image">Imagen</label>
+                    <input type="file" id="feature-image" name="feature-image" class="form-control">
+                    <div class="checkbox">
+                        <label>
+                            @Html.EditorFor(model => model.ActiveFeature)
+                            @Html.DisplayNameFor(model => model.ActiveFeature)
+                        </label>
+                    </div>
+                    @Html.LabelFor(model => model.DescriptionFeature)
+                    @Html.TextAreaFor(model => model.DescriptionFeature, new { @class = "form-control" })
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Cancelar</button>
+                    <input id="new-feature-modal-link" class="btn btn-success" type="submit" value="Agregar" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="modal fade" id="delete-feature-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Eliminar promoción</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Seguro que desea eliminar la promoción?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Cancelar</button>
+                <input type="hidden" id="delete-feature-link-input" value="@Url.Action("DeleteFeature")" />
+                <a id="delete-feature-link" class="btn btn-danger" href="/">Quitar</a>
+            </div>
+        </div>
+    </div>
+</div>

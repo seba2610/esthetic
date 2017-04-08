@@ -18,3 +18,13 @@ C:\Users\Sebastian Caggiano\Documents\GitHub\acrossud\Acrossud\ObjectMger\bin\Re
 C:\Users\Sebastian Caggiano\Documents\GitHub\acrossud\Acrossud\ObjectMger\obj\Release\ObjectMger.csprojResolveAssemblyReference.cache
 C:\Users\Sebastian Caggiano\Documents\GitHub\acrossud\Acrossud\ObjectMger\obj\Release\ObjectMger.dll
 C:\Users\Sebastian Caggiano\Documents\GitHub\acrossud\Acrossud\ObjectMger\obj\Release\ObjectMger.pdb
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\ObjectMger\bin\Release\ObjectMger.dll
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\ObjectMger\bin\Release\ObjectMger.pdb
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\ObjectMger\bin\Release\DataAccess.dll
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\ObjectMger\bin\Release\Object.dll
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\ObjectMger\bin\Release\BouncyCastle.Crypto.dll
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\ObjectMger\bin\Release\DataAccess.pdb
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\ObjectMger\bin\Release\Object.pdb
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\ObjectMger\obj\Release\ObjectMger.csprojResolveAssemblyReference.cache
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\ObjectMger\obj\Release\ObjectMger.dll
+C:\Users\Sebastian Caggiano\Documents\GitHub\esthetic\esthetic\ObjectMger\obj\Release\ObjectMger.pdb

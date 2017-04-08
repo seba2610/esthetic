@@ -1,0 +1,88 @@
+﻿@model Esthetic.Models.AdminModel
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active">
+        @Html.ActionLink("Categorías", "Categories")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Fotos", "Images")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Servicios", "Services")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Promociones", "Features")
+    </li>
+    <li role="presentation">
+        @Html.ActionLink("Opciones","Options")
+    </li>
+</ul>
+
+@if (Model.Categories.Count == 0)
+{
+    <span><i>No hay categorías creadas.</i></span>
+}
+else
+{
+    foreach (Esthetic.Category category in Model.Categories)
+    {
+        Model.Category = category;
+        @Html.Partial("Category", Model)
+    }
+}
+
+<div>
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#new-category-modal">
+        + Crear nueva
+    </button>
+</div>
+
+<div class="modal fade" id="new-category-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Crear nueva categoría</h4>
+            </div>
+            @using (Html.BeginForm("CreateCategory", "Admin", FormMethod.Post))
+            {
+                <div class="modal-body">
+                    @Html.LabelFor(model => Model.NewCategoryName)
+                    @Html.EditorFor(model => Model.NewCategoryName, new { htmlAttributes = new { @class = "form-control" } })
+
+                    @Html.LabelFor(model => Model.NewCategoryDescription)
+                    @Html.TextAreaFor(model => Model.NewCategoryDescription, new { @class = "form-control" })
+
+                    @if (Model.Categories.Count > 0)
+                    {
+                        @Html.LabelFor(model => Model.CategorySelected)
+                        @Html.DropDownListFor(model => model.CategorySelected, new SelectList(Model.Categories, "Id", "Name"), "Ninguna", new { @class = "form-control" })
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Cancelar</button>
+                    <input type="submit" class="btn btn-success" value="Crear" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-category-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Eliminar categoría</h4>
+            </div>
+            <div class="modal-body">
+                <p><strong>Las fotografías que se encuentren solo en esta categoría también serán eliminadas.</strong></p>
+                <p>¿Seguro que desea eliminar la categoría?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Cancelar</button>
+                <input type="hidden" id="delete-category-modal-input" value="@Url.Action("DeleteCategory")"/>
+                <a id="delete-category-modal-link" class="btn btn-danger" href="/">Eliminar</a>
+            </div>
+        </div>
+    </div>
+</div>
